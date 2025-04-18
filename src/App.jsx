@@ -5,6 +5,7 @@ function App() {
     <div>
       <h1>Hello World</h1>
       <p>This is a simple React application.</p>
+      <p>It is set up to use Vite for development.</p>
     </div>
   );
 }
