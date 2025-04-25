@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !surname || !email || !password) {
@@ -13,6 +15,8 @@ const RegisterPage = () => {
     }
 
     console.log("Kayıt yapılıyor:", { name, surname, email, password });
+
+    navigate("/main");
   };
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-purple-100">
@@ -21,7 +25,7 @@ const RegisterPage = () => {
           Kayıt Ol
         </h1>
 
-        <form className="flex flex-col space-y-4">
+        <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Ad"
@@ -49,7 +53,6 @@ const RegisterPage = () => {
           <button
             type="submit"
             className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl transition duration-200"
-            onClick={handleSubmit}
           >
             Kayıt Ol
           </button>

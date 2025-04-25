@@ -4,7 +4,7 @@ import AppRouter from "./routes";
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <BrowserRouter>
         <div className="flex flex-col">
           <AppRouter />
