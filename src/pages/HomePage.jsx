@@ -1,6 +1,7 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y, Autoplay, EffectFade } from "swiper/modules";
+import { Link } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
@@ -9,21 +10,25 @@ const HomePage = () => {
   const images = ["src/images/books.jpg", "src/images/library.jpg"];
 
   return (
-    <div className="justify-center h-screen w-full overflow-hidden flex flex-col">
-      <div className="w-screen h-3/20 bg-gray-300 flex">
-        <h1 className="font-bold text-3xl text-black p-10 flex items-center">
-          KÜTÜPHANE SİSTEMİ
+    <div className="h-screen w-full flex flex-col bg-gradient-to-br from-gray-100 via-white to-gray-200 ">
+      <header className="w-full justify-between bg-white flex shadow-md py-4 px-6 items-center">
+        <h1 className="font-bold text-2xl text-gray-800">
+          📚 KÜTÜPHANE SİSTEMİ
         </h1>
-        <div className=" flex items-center p-10 space-x-4 ml-auto">
-          <button className="border rounded-lg border-black text-black bg-white hover:bg-blue-300 font-bold py-2 px-4">
-            Giriş Yap
-          </button>
-          <button className="border rounded-lg border-black text-black bg-white hover:bg-blue-300 font-bold py-2 px-4">
-            Kayıt Ol
-          </button>
+        <div className=" flex space-x-4">
+          <Link to={"/login"}>
+            <button className="border rounded-lg border-gray-300 text-gray-700 bg-white hover:bg-blue-100 transition py-2 px-4">
+              Giriş Yap
+            </button>
+          </Link>
+          <Link to={"/register"}>
+            <button className="border rounded-lg border-gray-300 text-gray-700 bg-white hover:bg-green-100 transition py-2 px-4">
+              Kayıt Ol
+            </button>
+          </Link>
         </div>
-      </div>
-      <div className="w-screen h-17/20 bg-gray-200 relative overflow-hidden">
+      </header>
+      <main className="relative overflow-hidden flex-grow">
         <Swiper
           modules={[Navigation, A11y, Autoplay, EffectFade]}
           effect="fade"
@@ -38,7 +43,7 @@ const HomePage = () => {
           className="h-full"
         >
           {images.map((url, index) => (
-            <SwiperSlide key={index} className="relative w-full h-full">
+            <SwiperSlide key={index} className="w-full h-full">
               <img
                 src={url}
                 alt={`Slide ${index + 1}`}
@@ -47,7 +52,7 @@ const HomePage = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-      </div>
+      </main>
     </div>
   );
 };
