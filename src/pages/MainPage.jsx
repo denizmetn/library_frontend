@@ -4,25 +4,23 @@ import {
   UserOutlined,
   HistoryOutlined,
   ReadOutlined,
-  CalendarOutlined,
-  AppstoreOutlined,
-  UnorderedListOutlined,
+  BookOutlined,
+  CreditCardOutlined,
   StarOutlined,
 } from "@ant-design/icons";
-import Hesabim from "./Hesabim";
-import Kitaplar from "./Kitaplar";
-import OduncAldiklarim from "./OduncAldiklarim";
-import OduncGecmisim from "./OduncGecmisim";
-import RezerveEtme from "./RezerveEtme";
-import OkumaListesi from "./OkumaListesi";
-import Favorilerim from "./Favorilerim";
+import MyAccount from "./MyAccount";
+import Books from "./Books";
+import IBorrowed from "./IBorrowed";
+import BorrowHistory from "./BorrowHistory";
+import Payments from "./Payments";
+import Favorites from "./Favorites";
 
 const { Header, Content, Footer, Sider } = Layout;
 const menuItems = [
-  { key: "1", icon: <UserOutlined />, label: "Hesabım", route: "/hesabim" },
+  { key: "1", icon: <UserOutlined />, label: "Hesabım" },
   {
     key: "2",
-    icon: <AppstoreOutlined />,
+    icon: <BookOutlined />,
     label: "Kitaplar",
   },
   {
@@ -37,17 +35,12 @@ const menuItems = [
   },
   {
     key: "5",
-    icon: <CalendarOutlined />,
-    label: "Rezerve Etme",
-  },
-  {
-    key: "6",
-    icon: <UnorderedListOutlined />,
-    label: "Okuma Listelerim",
+    icon: <CreditCardOutlined />,
+    label: "Ödemeler",
   },
 
   {
-    key: "7",
+    key: "6",
     icon: <StarOutlined />,
     label: "Favorilerim",
   },
@@ -67,38 +60,35 @@ const MainPage = () => {
   const renderContent = () => {
     switch (selectedKey) {
       case "1":
-        return <Hesabim />;
+        return <MyAccount />;
       case "2":
-        return <Kitaplar />;
+        return <Books />;
       case "3":
-        return <OduncAldiklarim />;
+        return <IBorrowed />;
       case "4":
-        return <OduncGecmisim />;
+        return <BorrowHistory />;
       case "5":
-        return <RezerveEtme />;
+        return <Payments />;
       case "6":
-        return <OkumaListesi />;
-      case "7":
-        return <Favorilerim />;
+        return <Favorites />;
       default:
         return <MainPage />;
     }
   };
 
   return (
-    <Layout hasSider style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh", backgroundColor: "#f9fafb" }}>
       <Sider
         style={{
           overflow: "auto",
           height: "100vh",
           position: "sticky",
           top: 0,
-          background: "#001529",
         }}
-        width={250}
+        width={240}
       >
-        <div className="text-white text-center py-4 font-bold text-lg border-b border-gray-700">
-          Kütüphane Sistemi
+        <div className="text-white text-center py-6 font-bold text-xl border-b border-gray-700 tracking-wide">
+          Kütüphane
         </div>
         <Menu
           theme="dark"
@@ -106,17 +96,20 @@ const MainPage = () => {
           onClick={(e) => handleMenuClick(e.key)}
           selectedKeys={[selectedKey]}
           items={menuItems}
+          style={{ paddingTop: "20px", fontSize: "16px" }}
         />
       </Sider>
       <Layout>
         <Header
           style={{
             padding: "0 24px",
-            background: "#f0f2f5",
+            background: "#f9fafb",
             display: "flex",
             alignItems: "center",
-            fontSize: "18px",
-            fontWeight: "500",
+            fontSize: "22px",
+            fontWeight: "600",
+            color: "#374151",
+            borderBottom: "1px solid #e5e7eb",
           }}
         >
           {menuItems.find((item) => item.key === selectedKey)?.label}
@@ -128,12 +121,21 @@ const MainPage = () => {
               minHeight: 500,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
             }}
           >
             {renderContent()}
           </div>
         </Content>
-        <Footer style={{ textAlign: "center", background: "#fafafa" }}>
+        <Footer
+          style={{
+            textAlign: "center",
+            background: "#f9fafb",
+            color: "#9ca3af",
+            fontSize: "14px",
+            marginTop: "20px",
+          }}
+        >
           © {new Date().getFullYear()} Kütüphane Sistemi | Tüm Hakları Saklıdır.
         </Footer>
       </Layout>

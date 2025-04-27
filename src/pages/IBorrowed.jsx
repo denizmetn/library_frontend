@@ -1,5 +1,5 @@
 import React from "react";
-const OduncAldiklarim = () => {
+const IBorrowed = () => {
   return (
     <div>
       <h1>Odunc Aldiklarim</h1>
@@ -7,4 +7,4 @@ const OduncAldiklarim = () => {
     </div>
   );
 };
-export default OduncAldiklarim;
+export default IBorrowed;

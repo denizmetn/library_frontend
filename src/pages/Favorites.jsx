@@ -1,5 +1,5 @@
 import React from "react";
-const Favorilerim = () => {
+const Favorites = () => {
   return (
     <div>
       <h1>Favorilerim</h1>
@@ -7,4 +7,4 @@ const Favorilerim = () => {
     </div>
   );
 };
-export default Favorilerim;
+export default Favorites;

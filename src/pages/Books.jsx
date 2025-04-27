@@ -1,5 +1,5 @@
 import React from "react";
-const Kitaplar = () => {
+const Books = () => {
   return (
     <div>
       <h1>Kitaplar</h1>
@@ -7,4 +7,4 @@ const Kitaplar = () => {
     </div>
   );
 };
-export default Kitaplar;
+export default Books;

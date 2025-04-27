@@ -1,5 +1,5 @@
 import React from "react";
-const OduncGecmisim = () => {
+const BorrowHistory = () => {
   return (
     <div>
       <h1>Ödünç Geçmişim</h1>
@@ -7,4 +7,4 @@ const OduncGecmisim = () => {
     </div>
   );
 };
-export default OduncGecmisim;
+export default BorrowHistory;
