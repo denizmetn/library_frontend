@@ -7,7 +7,12 @@ import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 
 const HomePage = () => {
-  const images = ["src/images/books.jpg", "src/images/library.jpg"];
+  const images = [
+    "src/images/books.jpg",
+    "src/images/library.jpg",
+    "src/images/library2.jpg",
+    "src/images/people.jpg",
+  ];
 
   return (
     <div className="h-screen w-full flex flex-col bg-gradient-to-br from-gray-100 via-white to-gray-200 ">

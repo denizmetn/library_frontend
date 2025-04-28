@@ -7,6 +7,8 @@ import {
   BookOutlined,
   CreditCardOutlined,
   StarOutlined,
+  SettingOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import MyAccount from "./MyAccount";
 import Books from "./Books";
@@ -14,6 +16,7 @@ import IBorrowed from "./IBorrowed";
 import BorrowHistory from "./BorrowHistory";
 import Payments from "./Payments";
 import Favorites from "./Favorites";
+import Settings from "./Settings";
 
 const { Header, Content, Footer, Sider } = Layout;
 const menuItems = [
@@ -44,6 +47,11 @@ const menuItems = [
     icon: <StarOutlined />,
     label: "Favorilerim",
   },
+  {
+    key: "7",
+    icon: <SettingOutlined />,
+    label: "Ayarlar",
+  },
 ];
 
 const MainPage = () => {
@@ -71,6 +79,8 @@ const MainPage = () => {
         return <Payments />;
       case "6":
         return <Favorites />;
+      case "7":
+        return <Settings />;
       default:
         return <MainPage />;
     }
@@ -98,22 +108,13 @@ const MainPage = () => {
           items={menuItems}
           style={{ paddingTop: "20px", fontSize: "16px" }}
         />
+        <div className=" text-end  text-2xl absolute bottom-5 right-5">
+          <a href="/login">
+            <LogoutOutlined style={{ color: "white" }} />
+          </a>
+        </div>
       </Sider>
       <Layout>
-        <Header
-          style={{
-            padding: "0 24px",
-            background: "#f9fafb",
-            display: "flex",
-            alignItems: "center",
-            fontSize: "22px",
-            fontWeight: "600",
-            color: "#374151",
-            borderBottom: "1px solid #e5e7eb",
-          }}
-        >
-          {menuItems.find((item) => item.key === selectedKey)?.label}
-        </Header>
         <Content style={{ margin: "24px 16px 0", overflow: "auto" }}>
           <div
             style={{
