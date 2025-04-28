@@ -115,14 +115,13 @@ const MainPage = () => {
         </div>
       </Sider>
       <Layout>
-        <Content style={{ margin: "24px 16px 0", overflow: "auto" }}>
+        <Content style={{ overflow: "auto" }}>
           <div
             style={{
               padding: 24,
-              minHeight: 500,
+              height: "100%",
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
-              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
             }}
           >
             {renderContent()}
@@ -134,7 +133,6 @@ const MainPage = () => {
             background: "#f9fafb",
             color: "#9ca3af",
             fontSize: "14px",
-            marginTop: "20px",
           }}
         >
           © {new Date().getFullYear()} Kütüphane Sistemi | Tüm Hakları Saklıdır.
