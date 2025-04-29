@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table } from "antd";
 import { createStyles } from "antd-style";
 import dayjs from "dayjs";
@@ -73,17 +73,40 @@ const dataSource = Array.from({ length: 100 }).map((_, i) => ({
 }));
 const IBorrowed = () => {
   const { styles } = useStyle();
+  const [data, setData] = useState(dataSource);
+
+  const handleReturn = (key) => {
+    setData((prevData) => prevData.filter((item) => item.key !== key));
+  };
+
+  const updatedColumns = columns.map((col) => {
+    if (col.key === "islemler") {
+      return {
+        ...col,
+        render: (_, record) => (
+          <button
+            onClick={() => handleReturn(record.key)}
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+          >
+            İade Et
+          </button>
+        ),
+      };
+    }
+    return col;
+  });
 
   return (
     <div className="flex flex-col gap-8">
       <h1 className="text-2xl font-bold ">Ödünç Alınan Kitaplar</h1>
       <Table
         className={styles.customTable}
-        columns={columns}
-        dataSource={dataSource}
+        columns={updatedColumns}
+        dataSource={data}
         scroll={{ y: 55 * 7.81 }}
       />
     </div>
   );
 };
+
 export default IBorrowed;
