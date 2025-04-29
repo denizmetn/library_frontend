@@ -6,17 +6,40 @@ const RegisterPage = () => {
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     if (!name || !surname || !email || !password) {
-      alert("Lütfen tüm alanları doldurun.");
+      setError("Lütfen tüm alanları doldurun.");
       return;
     }
-
-    console.log("Kayıt yapılıyor:", { name, surname, email, password });
-
-    navigate("/main");
+    try {
+      const response = await fetch("#", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, surname, email, password }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message ||
+            `Kayıt başarısız oldu. Hata kodu: ${response.status}`
+        );
+      }
+      const data = await response.json();
+      console.log("Kayıt başarılı:", data);
+    } catch (error) {
+      console.error("Kayıt hatası:", error);
+      setError(
+        error.message ||
+          "Kayıt işlemi sırasında bir hata oluştu. Lütfen tekrar deneyin."
+      );
+    }
+    console.log("Kayıt başarılı:", { name, surname, email, password });
   };
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-purple-100">
@@ -29,27 +52,32 @@ const RegisterPage = () => {
           <input
             type="text"
             placeholder="Ad"
+            value={name}
             className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
             onChange={(e) => setName(e.target.value)}
           />
           <input
             type="text"
             placeholder="Soyad"
+            value={surname}
             className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
             onChange={(e) => setSurname(e.target.value)}
           />
           <input
             type="email"
             placeholder="E-posta"
+            value={email}
             className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="Şifre"
+            value={password}
             className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
             onChange={(e) => setPassword(e.target.value)}
           />
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <button
             type="submit"
             className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl transition duration-200"

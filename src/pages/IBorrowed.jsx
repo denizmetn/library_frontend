@@ -1,5 +1,5 @@
-import React from "react";
-import { Table } from "antd";
+import React, { useEffect, useState } from "react";
+import { Table, Spin } from "antd";
 import { createStyles } from "antd-style";
 import dayjs from "dayjs";
 const useStyle = createStyles(({ css, token }) => {
@@ -61,7 +61,7 @@ const columns = [
     ),
   },
 ];
-const dataSource = Array.from({ length: 100 }).map((_, i) => ({
+/*const dataSource = Array.from({ length: 100 }).map((_, i) => ({
   key: i,
   kitapAdi: `Yaprak Dökümü ${i}`,
   yazarAdi: "Reşat Nuri Güntekin",
@@ -70,9 +70,45 @@ const dataSource = Array.from({ length: 100 }).map((_, i) => ({
   bitisTarihi: dayjs()
     .add(i + 5, "day")
     .toDate(),
-}));
+}));*/
 const IBorrowed = () => {
   const { styles } = useStyle();
+  const [borrowedBooks, setBorrewodBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchBorrowedBooks = async () => {
+      try {
+        const response = await fetch("#");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setBorrewodBooks(data);
+        setLoading(false);
+      } catch (error) {
+        setError(true);
+        setLoading(false);
+        console.error("Ödünç alınan kitapları çekerken hata oluştu:", error);
+      }
+    };
+    fetchBorrowedBooks();
+  }, []);
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Spin size="large" tip="Kitaplar yükleniyor..." />
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="text-red-500">
+        Veri çekilirken bir hata oluştu: {error.message}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-8">
@@ -80,7 +116,7 @@ const IBorrowed = () => {
       <Table
         className={styles.customTable}
         columns={columns}
-        dataSource={dataSource}
+        dataSource={borrowedBooks}
         scroll={{ y: 55 * 7.81 }}
       />
     </div>

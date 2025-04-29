@@ -5,15 +5,36 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     if (!email || !password) {
-      alert("Lütfen tüm alanları doldurun.");
+      setError("Lütfen tüm alanları doldurun.");
       return;
     }
-    console.log("Giriş yapılıyor:", { email, password });
-    navigate("/main");
+    try {
+      const response = await fetch("#", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Giriş başarısız.");
+      }
+      const data = await response.json();
+      console.log("Giriş başarılı:", data);
+
+      localStorage.setItem("authToken", data.token);
+    } catch (error) {
+      console.error("Giriş hatası:", error);
+      setError(error.message);
+    }
+    console.log("Giriş başarılı:", { email, password });
   };
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-purple-100">
@@ -26,20 +47,22 @@ const LoginPage = () => {
           <input
             type="email"
             placeholder="E-posta"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <input
             type="password"
             placeholder="Şifre"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
 
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <button
             type="submit"
             className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl transition duration-200"
-            onClick={handleSubmit}
           >
             Giriş Yap
           </button>
