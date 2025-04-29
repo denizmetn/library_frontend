@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "antd";
 import { createStyles } from "antd-style";
 import dayjs from "dayjs";
-import { AlibabaOutlined } from "@ant-design/icons";
+
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
   return {
@@ -50,6 +50,7 @@ const dataSource = Array.from({ length: 100 }).map((_, i) => ({
   tur: "Roman",
   alinanTarih: dayjs().subtract(i, "day").toDate(),
 }));
+
 const BorrowHistory = () => {
   const { styles } = useStyle();
   return (

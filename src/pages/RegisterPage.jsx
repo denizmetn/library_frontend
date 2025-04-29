@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !surname || !email || !password) {
@@ -15,8 +13,6 @@ const RegisterPage = () => {
     }
 
     console.log("Kayıt yapılıyor:", { name, surname, email, password });
-
-    navigate("/main");
   };
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-purple-100">

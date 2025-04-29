@@ -79,10 +79,10 @@ const IBorrowed = () => {
     setData((prevData) => prevData.filter((item) => item.key !== key));
   };
 
-  const updatedColumns = columns.map((col) => {
-    if (col.key === "islemler") {
+  const updatedColumns = columns.map((item) => {
+    if (item.key === "islemler") {
       return {
-        ...col,
+        ...item,
         render: (_, record) => (
           <button
             onClick={() => handleReturn(record.key)}
@@ -93,7 +93,7 @@ const IBorrowed = () => {
         ),
       };
     }
-    return col;
+    return item;
   });
 
   return (
