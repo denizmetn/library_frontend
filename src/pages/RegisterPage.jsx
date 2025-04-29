@@ -1,17 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const nagivate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !surname || !email || !password) {
       alert("Lütfen tüm alanları doldurun.");
       return;
     }
-
+    nagivate("/main");
     console.log("Kayıt yapılıyor:", { name, surname, email, password });
   };
   return (

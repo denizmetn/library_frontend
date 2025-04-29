@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const nagivate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -10,6 +12,7 @@ const LoginPage = () => {
       alert("Lütfen tüm alanları doldurun.");
       return;
     }
+    nagivate("/main");
     console.log("Giriş yapılıyor:", { email, password });
   };
   return (

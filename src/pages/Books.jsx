@@ -250,7 +250,6 @@ const Books = () => {
   const { styles } = useStyle();
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-extrabold">KİTAPLAR</h1>
       <div style={{ marginBottom: 16, display: "flex", gap: "10px" }}>
         <Input
           placeholder="Kitap veya Yazar Adı Ara"
