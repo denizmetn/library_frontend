@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Menu, theme } from "antd";
+import { Layout, Menu, theme, Dropdown, Avatar } from "antd";
 import {
   UserOutlined,
   HistoryOutlined,
@@ -10,49 +10,54 @@ import {
   SettingOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import MyAccount from "./MyAccount";
 import Books from "./Books";
 import IBorrowed from "./IBorrowed";
 import BorrowHistory from "./BorrowHistory";
 import Payments from "./Payments";
 import Favorites from "./Favorites";
-import Settings from "./Settings";
 
 const { Header, Content, Footer, Sider } = Layout;
 const menuItems = [
-  { key: "1", icon: <UserOutlined />, label: "Hesabım" },
   {
-    key: "2",
+    key: "1",
     icon: <BookOutlined />,
     label: "Kitaplar",
   },
   {
-    key: "3",
+    key: "2",
     icon: <ReadOutlined />,
     label: "Ödünç Aldıklarım",
   },
   {
-    key: "4",
+    key: "3",
     icon: <HistoryOutlined />,
     label: "Ödünç Geçmişim",
   },
   {
-    key: "5",
+    key: "4",
     icon: <CreditCardOutlined />,
     label: "Ödemeler",
   },
 
   {
-    key: "6",
+    key: "5",
     icon: <StarOutlined />,
     label: "Favorilerim",
   },
-  {
-    key: "7",
-    icon: <SettingOutlined />,
-    label: "Ayarlar",
-  },
 ];
+
+const userMenu = (
+  <Menu>
+    <Menu.Item key="settings" icon={<SettingOutlined />}>
+      <a onClick={(e) => e.preventDefault()} href="#">
+        Ayarlar
+      </a>
+    </Menu.Item>
+    <Menu.Item key="logout" icon={<LogoutOutlined />}>
+      <a href="/login">Çıkış</a>
+    </Menu.Item>
+  </Menu>
+);
 
 const MainPage = () => {
   const {
@@ -68,23 +73,21 @@ const MainPage = () => {
   const renderContent = () => {
     switch (selectedKey) {
       case "1":
-        return <MyAccount />;
+        return { title: "Kitaplar", component: <Books /> };
       case "2":
-        return <Books />;
+        return { title: "Ödünç Aldıklarım", component: <IBorrowed /> };
       case "3":
-        return <IBorrowed />;
+        return { title: "Ödünç Geçmişim", component: <BorrowHistory /> };
       case "4":
-        return <BorrowHistory />;
+        return { title: "Ödemeler", component: <Payments /> };
       case "5":
-        return <Payments />;
-      case "6":
-        return <Favorites />;
-      case "7":
-        return <Settings />;
+        return { title: "Favorilerim", component: <Favorites /> };
       default:
-        return <MainPage />;
+        return { title: "Hesabım", component: <MyAccount /> };
     }
   };
+
+  const { title, component } = renderContent();
 
   return (
     <Layout style={{ minHeight: "100vh", backgroundColor: "#f9fafb" }}>
@@ -108,13 +111,25 @@ const MainPage = () => {
           items={menuItems}
           style={{ paddingTop: "20px", fontSize: "16px" }}
         />
-        <div className=" text-end  text-2xl absolute bottom-5 right-5">
-          <a href="/login">
-            <LogoutOutlined style={{ color: "white" }} />
-          </a>
-        </div>
       </Sider>
       <Layout>
+        <Header
+          style={{
+            padding: "0 20px",
+            background: colorBgContainer,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h1 className="text-3xl font-bold">{title}</h1>
+          <Dropdown overlay={userMenu} trigger={["click"]}>
+            <Avatar
+              style={{ backgroundColor: "#1890ff", cursor: "pointer" }}
+              icon={<UserOutlined />}
+            />
+          </Dropdown>
+        </Header>
         <Content style={{ overflow: "auto" }}>
           <div
             style={{
@@ -124,7 +139,7 @@ const MainPage = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            {renderContent()}
+            {component}
           </div>
         </Content>
         <Footer

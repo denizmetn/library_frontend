@@ -98,7 +98,6 @@ const IBorrowed = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="text-2xl font-bold ">Ödünç Alınan Kitaplar</h1>
       <Table
         className={styles.customTable}
         columns={updatedColumns}

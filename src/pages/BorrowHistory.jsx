@@ -54,7 +54,6 @@ const BorrowHistory = () => {
   const { styles } = useStyle();
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="text-2xl font-bold ">Ödünç Alınan Tüm Kitaplar</h1>
       <Table
         className={styles.customTable}
         columns={columns}
