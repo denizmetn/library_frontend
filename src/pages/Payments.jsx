@@ -35,6 +35,12 @@ const columns = [
     width: 100,
   },
   {
+    title: "Toplam Borç",
+    dataIndex:"borc",
+    width:100,
+  },
+
+  {
     title: 'İşlemler',
     key: 'islemler',
     width: 100,
@@ -51,14 +57,15 @@ const dataSource = Array.from({ length: 100 }).map((_, i) => ({
   key: i,
   kitapAdi: `Yaprak Dökümü ${i}`,
   yazarAdi: `Neşat Nuri GÜNTEKİN ${i}`,
-  gecikenGun: ` ${i}`
+  gecikenGun: ` ${i}`,
+  borc: `${i}`,
 }));
 const Payments = () => {
   const { styles } = useStyle();
     return (
       <div className="flex flex-col gap-8">
         <h1 className="text-2xl font-bold">
-          Favoriler
+          Ödemeler
         </h1>
         <Table
         className={styles.customTable}
