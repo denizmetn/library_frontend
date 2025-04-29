@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Table, Input, Select } from "antd";
 import { createStyles } from "antd-style";
 import { StarOutlined } from "@ant-design/icons";
+import { Button, Flex, Modal } from "antd";
 
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
@@ -22,9 +23,25 @@ const useStyle = createStyles(({ css, token }) => {
 });
 
 const Books = () => {
+  const [open, setOpen] = useState(false);
+  const [startDate, setStartDate] = useState("");
+
   const handleBorrow = (key) => {
     console.log(`Kitap ${key} ödünç alındı.`);
+    openModal();
   };
+
+  const openModal = () => {
+    const today = new Date();
+    const formattedDate = today.toISOString().split("T")[0];
+    setStartDate(formattedDate);
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+  };
+
   const columns = [
     {
       title: "Kitap Adı",
@@ -91,6 +108,7 @@ const Books = () => {
       width: 150,
     },
   ];
+
   const [dataSource, setDataSource] = useState([
     {
       key: 1,
@@ -199,8 +217,8 @@ const Books = () => {
     const updatedData = dataSource.map((item) =>
       item.key === key ? { ...item, isFavorite: !item.isFavorite } : item
     );
-    setDataSource(updatedData); // dataSource'u güncelle
-    setFilteredData(updatedData); // filteredData'yı da güncelle
+    setDataSource(updatedData);
+    setFilteredData(updatedData);
   };
 
   const handleSearch = (value) => {
@@ -247,7 +265,10 @@ const Books = () => {
           style={{ width: "200px" }}
         >
           <Option value="Roman">Roman</Option>
-          <Option value="Bilim">Bilim</Option>
+
+          <Option value="Bilim Kurgu">Bilim Kurgu</Option>
+          <Option value="Fantastik">Fantastik</Option>
+          <Option value="Tarih">Tarih</Option>
         </Select>
       </div>
 
@@ -258,6 +279,57 @@ const Books = () => {
         pagination={{ pageSize: 50 }}
         scroll={{ y: 55 * 9.5 }}
       />
+
+      <Modal
+        title="Kitap Ödünç Alındı"
+        centered
+        open={open}
+        onCancel={closeModal}
+        width={600}
+        footer={null}
+      >
+        <form className="space-y-8">
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="baslangıctarihi"
+                  className="block text-sm font-semibold text-gray-700 mb-2"
+                >
+                  Başlangıç Tarihi
+                </label>
+                <input
+                  id="baslangıctarihi"
+                  type="date"
+                  value={startDate}
+                  className="border border-gray-300 rounded-lg px-4 py-2 w-full"
+                  readOnly
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="bitistarihi"
+                  className="block text-sm font-semibold text-gray-700 mb-2"
+                >
+                  Bitiş Tarihi
+                </label>
+                <input
+                  id="bitistarihi"
+                  type="date"
+                  className="border border-gray-300 rounded-lg px-4 py-2 w-full"
+                />
+
+                <div className="flex">
+                  <button class=" cursor-pointer mt-4 ml-auto bg-blue-500 text-white px-8 py-2 rounded-lg">
+                    Ödünç Al
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };
