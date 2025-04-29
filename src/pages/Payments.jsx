@@ -25,7 +25,6 @@ const Payments = () => {
   const [odemeModalVisible, setOdemeModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [form] = Form.useForm();
-  
 
   const showOdemeModal = (record) => {
     setSelectedRecord(record);
@@ -88,26 +87,25 @@ const Payments = () => {
     },
   ];
 
-  const [dataSource,setDataSource] =useState(Array.from({ length: 100 }).map((_, i) => ({
-    key: i,
-    kitapAdi: `Yaprak Dökümü ${i}`,
-    yazarAdi: `Neşat Nuri GÜNTEKİN ${i}`,
-    gecikenGun: `${i}`,
-    borc: `${i * 2} ₺`,
-  }))
+  const [dataSource, setDataSource] = useState(
+    Array.from({ length: 100 }).map((_, i) => ({
+      key: i,
+      kitapAdi: `Yaprak Dökümü ${i}`,
+      yazarAdi: `Neşat Nuri GÜNTEKİN ${i}`,
+      gecikenGun: `${i}`,
+      borc: `${i * 2} ₺`,
+    }))
   );
-  const handleDelete=()=>{
-    if(selectedRecord){
+  const handleDelete = () => {
+    if (selectedRecord) {
       setDataSource((prevData) =>
-        prevData.filter((item)=>item.key !== selectedRecord.key)
+        prevData.filter((item) => item.key !== selectedRecord.key)
       );
     }
-  } 
+  };
 
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="text-2xl font-bold">Ödemeler</h1>
-
       <Modal
         title="Kart Bilgileri ile Ödeme"
         open={odemeModalVisible}
@@ -139,41 +137,57 @@ const Payments = () => {
               },
             ]}
           >
-            <Input placeholder="1111 2222 3333 4444" type="text" inputMode="numeric" maxLength={16} />
+            <Input
+              placeholder="1111 2222 3333 4444"
+              type="text"
+              inputMode="numeric"
+              maxLength={16}
+            />
           </Form.Item>
 
           <Form.Item label="Son Kullanma Tarihi" required>
-        <div className="flex items-center gap-2">
-          <Form.Item
-            name="month"
-            noStyle
-            rules={[
-              { required: true, message: "Ay gerekli" },
-              {
-                pattern: /^(0[1-9]|1[0-2])$/,
-                message: "Geçerli ay: 01-12",
-              },
-            ]}
-          >
-            <Input placeholder="AA" maxLength={2} type="text" inputMode="numeric" style={{ width: "60px" }} />
+            <div className="flex items-center gap-2">
+              <Form.Item
+                name="month"
+                noStyle
+                rules={[
+                  { required: true, message: "Ay gerekli" },
+                  {
+                    pattern: /^(0[1-9]|1[0-2])$/,
+                    message: "Geçerli ay: 01-12",
+                  },
+                ]}
+              >
+                <Input
+                  placeholder="AA"
+                  maxLength={2}
+                  type="text"
+                  inputMode="numeric"
+                  style={{ width: "60px" }}
+                />
+              </Form.Item>
+              <span>/</span>
+              <Form.Item
+                name="year"
+                noStyle
+                rules={[
+                  { required: true, message: "Yıl gerekli" },
+                  {
+                    pattern: /^\d{2}$/,
+                    message: "Geçerli yıl: YY",
+                  },
+                ]}
+              >
+                <Input
+                  placeholder="YY"
+                  maxLength={2}
+                  type="text"
+                  inputMode="numeric"
+                  style={{ width: "60px" }}
+                />
+              </Form.Item>
+            </div>
           </Form.Item>
-          <span>/</span>
-          <Form.Item
-            name="year"
-            noStyle
-            rules={[
-              { required: true, message: "Yıl gerekli" },
-              {
-                pattern: /^\d{2}$/,
-                message: "Geçerli yıl: YY",
-              },
-            ]}
-          >
-            <Input placeholder="YY" maxLength={2} type="text" inputMode="numeric" style={{ width: "60px" }} />
-          </Form.Item>
-        </div>
-      </Form.Item>
-
 
           <Form.Item
             label="CVV"
@@ -186,7 +200,12 @@ const Payments = () => {
               },
             ]}
           >
-            <Input placeholder="123" type="text" inputMode="numeric" maxLength={3} />
+            <Input
+              placeholder="123"
+              type="text"
+              inputMode="numeric"
+              maxLength={3}
+            />
           </Form.Item>
 
           <Form.Item
@@ -194,7 +213,11 @@ const Payments = () => {
             name="name"
             rules={[
               { required: true, message: "İsim gerekli" },
-              { pattern:/^[A-Za-zÇçĞğİıÖöŞşÜü\s]+$/, min: 3, message: "Lütfen Geçerli bir isim giriniz." },
+              {
+                pattern: /^[A-Za-zÇçĞğİıÖöŞşÜü\s]+$/,
+                min: 3,
+                message: "Lütfen Geçerli bir isim giriniz.",
+              },
             ]}
           >
             <Input placeholder="Ad Soyad" />
@@ -208,7 +231,6 @@ const Payments = () => {
         dataSource={dataSource}
         scroll={{ y: 55 * 7.81 }}
       />
-      
     </div>
   );
 };
