@@ -38,11 +38,11 @@ const Payments = () => {
       const values = await form.validateFields();
       console.log("Kart Bilgileri:", values);
       handleDelete();
+      setOdemeModalVisible(false);
       Modal.success({
         title: "Ödeme Başarılı!",
         content: `${selectedRecord.kitapAdi} kitabı için ${selectedRecord.borc} ödeme alındı.`,
       });
-      setOdemeModalVisible(false);
     } catch (errorInfo) {
       console.log("Hatalı giriş:", errorInfo);
     }
