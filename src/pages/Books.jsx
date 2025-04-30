@@ -9,7 +9,7 @@ const useStyle = createStyles(({ css, token }) => {
     customTable: css`
       ${antCls}-table {
         ${antCls}-table-container {
-          ${antCls}-table-body,
+          ${antCls}-table-body
           ${antCls}-table-content {
             scrollbar-width: thin;
             scrollbar-color: #eaeaea transparent;
@@ -172,6 +172,166 @@ const Books = () => {
       isFavorite: false,
       durum: "Mevcut",
     },
+    {
+      key: 11,
+      kitapAdi: "Don Kişot",
+      yazarAdi: "Miguel de Cervantes",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 12,
+      kitapAdi: "Savaş ve Barış",
+      yazarAdi: "Lev Tolstoy",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Tükenmiş",
+    },
+    {
+      key: 13,
+      kitapAdi: "Zaman Makinesi",
+      yazarAdi: "H.G. Wells",
+      tur: "Bilim Kurgu",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 14,
+      kitapAdi: "Frankenstein",
+      yazarAdi: "Mary Shelley",
+      tur: "Bilim Kurgu",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 15,
+      kitapAdi: "Yabancı",
+      yazarAdi: "Albert Camus",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 16,
+      kitapAdi: "Monte Cristo Kontu",
+      yazarAdi: "Alexandre Dumas",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Tükenmiş",
+    },
+    {
+      key: 17,
+      kitapAdi: "Dracula",
+      yazarAdi: "Bram Stoker",
+      tur: "Fantastik",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 18,
+      kitapAdi: "Kayıp Zamanın İzinde",
+      yazarAdi: "Marcel Proust",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Tükenmiş",
+    },
+    {
+      key: 19,
+      kitapAdi: "Cesur Yeni Dünya",
+      yazarAdi: "Aldous Huxley",
+      tur: "Bilim Kurgu",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 20,
+      kitapAdi: "Bir İdam Mahkumunun Son Günü",
+      yazarAdi: "Victor Hugo",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 21,
+      kitapAdi: "Moby Dick",
+      yazarAdi: "Herman Melville",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 22,
+      kitapAdi: "Uğultulu Tepeler",
+      yazarAdi: "Emily Brontë",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Tükenmiş",
+    },
+    {
+      key: 23,
+      kitapAdi: "Alice Harikalar Diyarında",
+      yazarAdi: "Lewis Carroll",
+      tur: "Fantastik",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 24,
+      kitapAdi: "Denizler Altında Yirmi Bin Fersah",
+      yazarAdi: "Jules Verne",
+      tur: "Bilim Kurgu",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 25,
+      kitapAdi: "Germinal",
+      yazarAdi: "Émile Zola",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 26,
+      kitapAdi: "Bülbülü Öldürmek",
+      yazarAdi: "Harper Lee",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 27,
+      kitapAdi: "Yeraltından Notlar",
+      yazarAdi: "Fyodor Dostoyevski",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Tükenmiş",
+    },
+    {
+      key: 28,
+      kitapAdi: "Körlük",
+      yazarAdi: "José Saramago",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 29,
+      kitapAdi: "Dorian Gray'in Portresi",
+      yazarAdi: "Oscar Wilde",
+      tur: "Roman",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
+    {
+      key: 30,
+      kitapAdi: "Hayalet Hikayeleri",
+      yazarAdi: "M.R. James",
+      tur: "Fantastik",
+      isFavorite: false,
+      durum: "Mevcut",
+    },
   ]);
 
   const [open, setOpen] = useState(false);
@@ -231,6 +391,7 @@ const Books = () => {
   };
 
   const { styles } = useStyle();
+  const { Option } = Select;
   return (
     <div className="flex flex-col">
       <div className="space-y-6">
@@ -248,10 +409,10 @@ const Books = () => {
             allowClear
             style={{ width: "200px" }}
           >
-            <Option value="Roman">Roman</Option>
-            <Option value="Bilim Kurgu">Bilim Kurgu</Option>
-            <Option value="Fantastik">Fantastik</Option>
-            <Option value="Tarih">Tarih</Option>
+            <Select.Option value="Roman">Roman</Select.Option>
+            <Select.Option value="Bilim Kurgu">Bilim Kurgu</Select.Option>
+            <Select.Option value="Fantastik">Fantastik</Select.Option>
+            <Select.Option value="Tarih">Tarih</Select.Option>
           </Select>
         </div>
 
