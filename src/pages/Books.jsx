@@ -46,7 +46,7 @@ const Books = () => {
       width: 150,
       render: (_, record) => (
         <button
-          onClick={() => handleBorrow(record.key)}
+          onClick={() => openModal(record.key)}
           style={{
             backgroundColor: "#1890ff",
             color: "#fff",
@@ -339,11 +339,6 @@ const Books = () => {
   const [filteredData, setFilteredData] = useState(dataSource);
   const [searchText, setSearchText] = useState("");
   const [selectedTur, setSelectedTur] = useState("");
-
-  const handleBorrow = (key) => {
-    console.log(`Kitap ${key} ödünç alındı.`);
-    openModal();
-  };
 
   const openModal = () => {
     const today = new Date();
