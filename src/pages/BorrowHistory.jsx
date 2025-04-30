@@ -29,7 +29,7 @@ const columns = [
   {
     title: "Yazar Adı",
     dataIndex: "yazarAdi",
-    width: 200,
+    width: 150,
   },
   {
     title: "Tür",
@@ -42,14 +42,14 @@ const columns = [
     render: (date) => dayjs(date).format("DD/MM/YYYY"),
     width: 100,
   },
+
+  {
+    title: "İade Edilen Tarih",
+    dataIndex: "iadeEdilenTarih",
+    render: (date) => dayjs(date).format("DD/MM/YYYY"),
+    width: 100,
+  },
 ];
-const dataSource = Array.from({ length: 100 }).map((_, i) => ({
-  key: i,
-  kitapAdi: `Yaprak Dökümü ${i}`,
-  yazarAdi: "Reşat Nuri Güntekin",
-  tur: "Roman",
-  alinanTarih: dayjs().subtract(i, "day").toDate(),
-}));
 
 const BorrowHistory = () => {
   const { styles } = useStyle();
@@ -58,7 +58,6 @@ const BorrowHistory = () => {
       <Table
         className={styles.customTable}
         columns={columns}
-        dataSource={dataSource}
         scroll={{ y: 55 * 8 }}
       />
     </div>

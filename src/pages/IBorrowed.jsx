@@ -61,19 +61,10 @@ const columns = [
     ),
   },
 ];
-const dataSource = Array.from({ length: 100 }).map((_, i) => ({
-  key: i,
-  kitapAdi: `Yaprak Dökümü ${i}`,
-  yazarAdi: "Reşat Nuri Güntekin",
-  tur: "Roman",
-  baslangicTarihi: dayjs().subtract(i, "day").toDate(),
-  bitisTarihi: dayjs()
-    .add(i + 5, "day")
-    .toDate(),
-}));
+
 const IBorrowed = () => {
   const { styles } = useStyle();
-  const [data, setData] = useState(dataSource);
+  const [data, setData] = useState("");
 
   const handleReturn = (key) => {
     setData((prevData) => prevData.filter((item) => item.key !== key));
@@ -101,7 +92,6 @@ const IBorrowed = () => {
       <Table
         className={styles.customTable}
         columns={updatedColumns}
-        dataSource={data}
         scroll={{ y: 55 * 8 }}
       />
     </div>

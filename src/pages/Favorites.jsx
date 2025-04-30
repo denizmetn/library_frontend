@@ -72,19 +72,11 @@ const Favorites = () => {
     },
   ];
 
-  const dataSource = Array.from({ length: 100 }).map((_, i) => ({
-    key: i,
-    kitapAdi: `Yaprak Dökümü ${i}`,
-    yazarAdi: `Neşat Nuri GÜNTEKİN ${i}`,
-    tur: `Roman ${i}`,
-  }));
-
   return (
     <div className="flex flex-col gap-8">
       <Table
         className={styles.customTable}
         columns={columns}
-        dataSource={dataSource}
         scroll={{ y: 55 * 8 }}
       />
       <Modal

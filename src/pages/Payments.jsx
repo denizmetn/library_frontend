@@ -87,15 +87,6 @@ const Payments = () => {
     },
   ];
 
-  const [dataSource, setDataSource] = useState(
-    Array.from({ length: 100 }).map((_, i) => ({
-      key: i,
-      kitapAdi: `Yaprak Dökümü ${i}`,
-      yazarAdi: `Neşat Nuri GÜNTEKİN ${i}`,
-      gecikenGun: `${i}`,
-      borc: `${i * 2} ₺`,
-    }))
-  );
   const handleDelete = () => {
     if (selectedRecord) {
       setDataSource((prevData) =>
@@ -228,7 +219,6 @@ const Payments = () => {
       <Table
         className={styles.customTable}
         columns={columns}
-        dataSource={dataSource}
         scroll={{ y: 55 * 8 }}
       />
     </div>
