@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Table } from "antd";
 import { createStyles } from "antd-style";
 import dayjs from "dayjs";
+import { BorrowedBooksContext } from "../context/BorrowedBooksContext";
+
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
   return {
@@ -19,6 +21,7 @@ const useStyle = createStyles(({ css, token }) => {
     `,
   };
 });
+
 const columns = [
   {
     title: "Kitap Adı",
@@ -64,11 +67,8 @@ const columns = [
 
 const IBorrowed = () => {
   const { styles } = useStyle();
-  const [data, setData] = useState("");
-
-  const handleReturn = (key) => {
-    setData((prevData) => prevData.filter((item) => item.key !== key));
-  };
+  const { borrowedBooks, removeBorrowedBook, addToBorrowHistory } =
+    useContext(BorrowedBooksContext);
 
   const updatedColumns = columns.map((item) => {
     if (item.key === "islemler") {
@@ -76,7 +76,13 @@ const IBorrowed = () => {
         ...item,
         render: (_, record) => (
           <button
-            onClick={() => handleReturn(record.key)}
+            onClick={() => {
+              removeBorrowedBook(record.key);
+              addToBorrowHistory({
+                ...record,
+                iadeEdilenTarih: dayjs().format("YYYY-MM-DD"),
+              });
+            }}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
           >
             İade Et
@@ -92,6 +98,7 @@ const IBorrowed = () => {
       <Table
         className={styles.customTable}
         columns={updatedColumns}
+        dataSource={borrowedBooks}
         scroll={{ y: 55 * 8 }}
       />
     </div>

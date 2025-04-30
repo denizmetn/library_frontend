@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Table, Input, Select, Modal } from "antd";
 import { createStyles } from "antd-style";
 import { StarOutlined } from "@ant-design/icons";
+import { BorrowedBooksContext } from "../context/BorrowedBooksContext"; // Import context
 
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
@@ -89,6 +90,12 @@ const Books = () => {
     },
   ];
 
+  const { addBorrowedBook } = useContext(BorrowedBooksContext) || {};
+  if (!addBorrowedBook) {
+    console.error("BorrowedBooksContext is not properly provided.");
+    return <div>Error: Context not available</div>;
+  }
+  const [selectedBook, setSelectedBook] = useState(null);
   const [dataSource, setDataSource] = useState([
     {
       key: 1,
@@ -340,10 +347,11 @@ const Books = () => {
   const [searchText, setSearchText] = useState("");
   const [selectedTur, setSelectedTur] = useState("");
 
-  const openModal = () => {
+  const openModal = (key) => {
     const today = new Date();
     const formattedDate = today.toISOString().split("T")[0];
     setStartDate(formattedDate);
+    setSelectedBook(dataSource.find((item) => item.key === key));
     setOpen(true);
   };
 
@@ -383,6 +391,25 @@ const Books = () => {
     );
     setFilteredData(filtered);
     setSelectedTur(value);
+  };
+
+  const handleBorrow = (e) => {
+    e.preventDefault();
+    const bitisTarihi = e.target.bitistarihi.value;
+    if (!addBorrowedBook) {
+      console.error(
+        "addBorrowedBook function is not available in the context."
+      );
+      return;
+    }
+    if (selectedBook && bitisTarihi) {
+      addBorrowedBook({
+        ...selectedBook,
+        baslangicTarihi: startDate,
+        bitisTarihi,
+      });
+      closeModal();
+    }
   };
 
   const { styles } = useStyle();
@@ -427,7 +454,7 @@ const Books = () => {
         width={600}
         footer={null}
       >
-        <form className="space-y-8">
+        <form className="space-y-8" onSubmit={handleBorrow}>
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -457,10 +484,14 @@ const Books = () => {
                   id="bitistarihi"
                   type="date"
                   className="border border-gray-300 rounded-lg px-4 py-2 w-full"
+                  required
                 />
 
                 <div className="flex">
-                  <button class=" cursor-pointer mt-4 ml-auto bg-blue-500 text-white px-8 py-2 rounded-lg">
+                  <button
+                    type="submit"
+                    className="cursor-pointer mt-4 ml-auto bg-blue-500 text-white px-8 py-2 rounded-lg"
+                  >
                     Ödünç Al
                   </button>
                 </div>

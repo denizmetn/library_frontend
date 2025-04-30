@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Table } from "antd";
 import { createStyles } from "antd-style";
 import dayjs from "dayjs";
+import { BorrowedBooksContext } from "../context/BorrowedBooksContext";
 
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
@@ -20,6 +21,7 @@ const useStyle = createStyles(({ css, token }) => {
     `,
   };
 });
+
 const columns = [
   {
     title: "Kitap Adı",
@@ -38,11 +40,10 @@ const columns = [
   },
   {
     title: "Alınan Tarih",
-    dataIndex: "alinanTarih",
+    dataIndex: "baslangicTarihi",
     render: (date) => dayjs(date).format("DD/MM/YYYY"),
     width: 100,
   },
-
   {
     title: "İade Edilen Tarih",
     dataIndex: "iadeEdilenTarih",
@@ -53,14 +54,18 @@ const columns = [
 
 const BorrowHistory = () => {
   const { styles } = useStyle();
+  const { borrowHistory } = useContext(BorrowedBooksContext);
+
   return (
     <div className="flex flex-col gap-8">
       <Table
         className={styles.customTable}
         columns={columns}
+        dataSource={borrowHistory}
         scroll={{ y: 55 * 8 }}
       />
     </div>
   );
 };
+
 export default BorrowHistory;
