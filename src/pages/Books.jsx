@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Table, Input, Select } from "antd";
+import { Table, Input, Select, Modal } from "antd";
 import { createStyles } from "antd-style";
 import { StarOutlined } from "@ant-design/icons";
-import { Button, Flex, Modal } from "antd";
 
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
@@ -23,46 +22,27 @@ const useStyle = createStyles(({ css, token }) => {
 });
 
 const Books = () => {
-  const [open, setOpen] = useState(false);
-  const [startDate, setStartDate] = useState("");
-
-  const handleBorrow = (key) => {
-    console.log(`Kitap ${key} ödünç alındı.`);
-    openModal();
-  };
-
-  const openModal = () => {
-    const today = new Date();
-    const formattedDate = today.toISOString().split("T")[0];
-    setStartDate(formattedDate);
-    setOpen(true);
-  };
-
-  const closeModal = () => {
-    setOpen(false);
-  };
-
   const columns = [
     {
       title: "Kitap Adı",
-      dataIndex: "kitapadi",
+      dataIndex: "kitapAdi",
       width: 150,
     },
 
     {
       title: "Yazar Adı",
-      dataIndex: "yazaradi",
+      dataIndex: "yazarAdi",
       width: 200,
     },
     {
       title: "Tür",
-      dataIndex: "tür",
+      dataIndex: "tur",
       width: 150,
     },
 
     {
       title: "İşlem",
-      key: "action",
+      key: "islem",
       width: 150,
       render: (_, record) => (
         <button
@@ -83,7 +63,7 @@ const Books = () => {
 
     {
       title: "Favori",
-      key: "favorite",
+      key: "favori",
       width: 100,
       render: (_, record) => (
         <span
@@ -112,106 +92,124 @@ const Books = () => {
   const [dataSource, setDataSource] = useState([
     {
       key: 1,
-      kitapadi: "Sefiller",
-      yazaradi: "Victor Hugo",
-      tür: "Roman",
+      kitapAdi: "Sefiller",
+      yazarAdi: "Victor Hugo",
+      tur: "Roman",
       isFavorite: false,
       durum: "Mevcut",
     },
     {
       key: 2,
-      kitapadi: "1984",
-      yazaradi: "George Orwell",
-      tür: "Bilim Kurgu",
+      kitapAdi: "1984",
+      yazarAdi: "George Orwell",
+      tur: "Bilim Kurgu",
       isFavorite: false,
       durum: "Tükenmiş",
     },
     {
       key: 3,
-      kitapadi: "Suç ve Ceza",
-      yazaradi: "Fyodor Dostoyevski",
-      tür: "Roman",
+      kitapAdi: "Suç ve Ceza",
+      yazarAdi: "Fyodor Dostoyevski",
+      tur: "Roman",
       isFavorite: false,
       durum: "Mevcut",
     },
     {
       key: 4,
-      kitapadi: "Hayvan Çiftliği",
-      yazaradi: "George Orwell",
-      tür: "Bilim Kurgu",
+      kitapAdi: "Hayvan Çiftliği",
+      yazarAdi: "George Orwell",
+      tur: "Bilim Kurgu",
       isFavorite: false,
       durum: "Mevcut",
     },
     {
       key: 5,
-      kitapadi: "Kürk Mantolu Madonna",
-      yazaradi: "Sabahattin Ali",
-      tür: "Roman",
+      kitapAdi: "Kürk Mantolu Madonna",
+      yazarAdi: "Sabahattin Ali",
+      tur: "Roman",
       isFavorite: false,
       durum: "Tükenmiş",
     },
     {
       key: 6,
-      kitapadi: "Beyaz Zambaklar Ülkesinde",
-      yazaradi: "Grigory Petrov",
-      tür: "Tarih",
+      kitapAdi: "Beyaz Zambaklar Ülkesinde",
+      yazarAdi: "Grigory Petrov",
+      tur: "Tarih",
       isFavorite: false,
       durum: "Mevcut",
     },
     {
       key: 7,
-      kitapadi: "Nutuk",
-      yazaradi: "Mustafa Kemal Atatürk",
-      tür: "Tarih",
+      kitapAdi: "Nutuk",
+      yazarAdi: "Mustafa Kemal Atatürk",
+      tur: "Tarih",
       isFavorite: false,
       durum: "Mevcut",
     },
 
     {
       key: 8,
-      kitapadi: "Dune",
-      yazaradi: "Frank Herbert",
-      tür: "Bilim Kurgu",
+      kitapAdi: "Dune",
+      yazarAdi: "Frank Herbert",
+      tur: "Bilim Kurgu",
       isFavorite: false,
       durum: "Mevcut",
     },
     {
       key: 9,
-      kitapadi: "Yüzüklerin Efendisi",
-      yazaradi: "J.R.R. Tolkien",
-      tür: "Fantastik",
+      kitapAdi: "Yüzüklerin Efendisi",
+      yazarAdi: "J.R.R. Tolkien",
+      tur: "Fantastik",
       isFavorite: false,
       durum: "Tükenmiş",
     },
     {
       key: 8,
-      kitapadi: "Dune",
-      yazaradi: "Frank Herbert",
-      tür: "Bilim Kurgu",
+      kitapAdi: "Dune",
+      yazarAdi: "Frank Herbert",
+      tur: "Bilim Kurgu",
       isFavorite: false,
       durum: "Mevcut",
     },
     {
       key: 9,
-      kitapadi: "Yüzüklerin Efendisi",
-      yazaradi: "J.R.R. Tolkien",
-      tür: "Fantastik",
+      kitapAdi: "Yüzüklerin Efendisi",
+      yazarAdi: "J.R.R. Tolkien",
+      tur: "Fantastik",
       isFavorite: false,
       durum: "Tükenmiş",
     },
     {
       key: 10,
-      kitapadi: "Harry Potter ve Felsefe Taşı",
-      yazaradi: "J.K. Rowling",
-      tür: "Fantastik",
+      kitapAdi: "Harry Potter ve Felsefe Taşı",
+      yazarAdi: "J.K. Rowling",
+      tur: "Fantastik",
       isFavorite: false,
       durum: "Mevcut",
     },
   ]);
 
+  const [open, setOpen] = useState(false);
+  const [startDate, setStartDate] = useState("");
   const [filteredData, setFilteredData] = useState(dataSource);
   const [searchText, setSearchText] = useState("");
-  const [selectedTür, setSelectedTür] = useState("");
+  const [selectedTur, setSelectedTur] = useState("");
+
+  const handleBorrow = (key) => {
+    console.log(`Kitap ${key} ödünç alındı.`);
+    openModal();
+  };
+
+  const openModal = () => {
+    const today = new Date();
+    const formattedDate = today.toISOString().split("T")[0];
+    setStartDate(formattedDate);
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+  };
 
   const handleFavorite = (key) => {
     const updatedData = dataSource.map((item) =>
@@ -224,60 +222,60 @@ const Books = () => {
   const handleSearch = (value) => {
     const filtered = dataSource.filter(
       (item) =>
-        item.kitapadi.toLowerCase().includes(value.toLowerCase()) ||
-        item.yazaradi.toLowerCase().includes(value.toLowerCase())
+        item.kitapAdi.toLowerCase().includes(value.toLowerCase()) ||
+        item.yazarAdi.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredData(
-      selectedTür
-        ? filtered.filter((item) => item.tür === selectedTür)
+      selectedTur
+        ? filtered.filter((item) => item.tur === selectedTur)
         : filtered
     );
     setSearchText(value);
   };
 
-  const handleTürChange = (value) => {
+  const handleTurChange = (value) => {
     const filtered = dataSource.filter((item) =>
       searchText
-        ? (item.kitapadi.toLowerCase().includes(searchText.toLowerCase()) ||
-            item.yazaradi.toLowerCase().includes(searchText.toLowerCase())) &&
-          (!value || item.tür === value)
-        : !value || item.tür === value
+        ? (item.kitapAdi.toLowerCase().includes(searchText.toLowerCase()) ||
+            item.yazarAdi.toLowerCase().includes(searchText.toLowerCase())) &&
+          (!value || item.tur === value)
+        : !value || item.tur === value
     );
     setFilteredData(filtered);
-    setSelectedTür(value);
+    setSelectedTur(value);
   };
 
   const { styles } = useStyle();
   return (
-    <div className="flex flex-col gap-4">
-      <div style={{ marginBottom: 16, display: "flex", gap: "10px" }}>
-        <Input
-          placeholder="Kitap veya Yazar Adı Ara"
-          value={searchText}
-          onChange={(e) => handleSearch(e.target.value)}
-          style={{ width: "300px" }}
+    <div className="flex flex-col">
+      <div className="space-y-6">
+        <div className="flex gap-4 ">
+          <Input
+            placeholder="Kitap veya Yazar Adı Ara"
+            value={searchText}
+            onChange={(e) => handleSearch(e.target.value)}
+            style={{ width: "300px" }}
+          />
+          <Select
+            placeholder="Tür Seçin"
+            onChange={handleTurChange}
+            allowClear
+            style={{ width: "200px" }}
+          >
+            <Option value="Roman">Roman</Option>
+            <Option value="Bilim Kurgu">Bilim Kurgu</Option>
+            <Option value="Fantastik">Fantastik</Option>
+            <Option value="Tarih">Tarih</Option>
+          </Select>
+        </div>
+
+        <Table
+          className={styles.customTable}
+          columns={columns}
+          dataSource={filteredData}
+          scroll={{ y: 50 * 7.85 }}
         />
-        <Select
-          placeholder="Tür Seçin"
-          onChange={handleTürChange}
-          allowClear
-          style={{ width: "200px" }}
-        >
-          <Option value="Roman">Roman</Option>
-
-          <Option value="Bilim Kurgu">Bilim Kurgu</Option>
-          <Option value="Fantastik">Fantastik</Option>
-          <Option value="Tarih">Tarih</Option>
-        </Select>
       </div>
-
-      <Table
-        className={styles.customTable}
-        columns={columns}
-        dataSource={filteredData}
-        pagination={{ pageSize: 50 }}
-        scroll={{ y: 55 * 9.5 }}
-      />
 
       <Modal
         title="Kitap Ödünç Alındı"

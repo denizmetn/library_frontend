@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Layout, Menu, theme, Dropdown, Avatar } from "antd";
+import React, { useEffect, useState } from "react";
+import { Layout, Menu, theme, Dropdown, Avatar, Modal, Input } from "antd";
 import {
   UserOutlined,
   HistoryOutlined,
@@ -15,8 +15,10 @@ import IBorrowed from "./IBorrowed";
 import BorrowHistory from "./BorrowHistory";
 import Payments from "./Payments";
 import Favorites from "./Favorites";
+const { TextArea } = Input;
 
 const { Header, Content, Footer, Sider } = Layout;
+
 const menuItems = [
   {
     key: "1",
@@ -46,29 +48,15 @@ const menuItems = [
   },
 ];
 
-const userMenu = (
-  <Menu>
-    <Menu.Item key="settings" icon={<SettingOutlined />}>
-      <a onClick={(e) => e.preventDefault()} href="#">
-        Ayarlar
-      </a>
-    </Menu.Item>
-    <Menu.Item key="logout" icon={<LogoutOutlined />}>
-      <a href="/login">Çıkış</a>
-    </Menu.Item>
-  </Menu>
-);
-
 const MainPage = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   const [selectedKey, setSelectedKey] = useState("1");
-
-  const handleMenuClick = (key) => {
-    setSelectedKey(key);
-  };
+  const [address, setAddress] = useState("");
+  const [savedAddress, setSavedAddress] = useState("");
+  const [open, setOpen] = useState(false);
 
   const renderContent = () => {
     switch (selectedKey) {
@@ -86,8 +74,51 @@ const MainPage = () => {
         return { title: "Hesabım", component: <MyAccount /> };
     }
   };
-
   const { title, component } = renderContent();
+
+  useEffect(() => {
+    const storedAddress = localStorage.getItem("savedAddress");
+    if (storedAddress) {
+      setSavedAddress(storedAddress);
+      setAddress(storedAddress);
+    }
+  }, []);
+
+  const handleSave = () => {
+    setSavedAddress(address);
+    localStorage.setItem("savedAddress", address);
+  };
+
+  const handleSettings = (key) => {
+    openModal();
+  };
+
+  const openModal = () => {
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+  };
+
+  const handleMenuClick = (key) => {
+    setSelectedKey(key);
+  };
+
+  const userMenu = (
+    <Menu>
+      <Menu.Item
+        key="settings"
+        icon={<SettingOutlined />}
+        onClick={handleSettings}
+      >
+        Ayarlar
+      </Menu.Item>
+      <Menu.Item key="logout" icon={<LogoutOutlined />}>
+        <a href="/login">Çıkış</a>
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <Layout style={{ minHeight: "100vh", backgroundColor: "#f9fafb" }}>
@@ -115,11 +146,12 @@ const MainPage = () => {
       <Layout>
         <Header
           style={{
-            padding: "0 20px",
+            padding: " 20px",
             background: colorBgContainer,
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            background: "#f9fafb",
           }}
         >
           <h1 className="text-3xl font-bold">{title}</h1>
@@ -148,11 +180,65 @@ const MainPage = () => {
             background: "#f9fafb",
             color: "#9ca3af",
             fontSize: "14px",
+            height: "50px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           © {new Date().getFullYear()} Kütüphane Sistemi | Tüm Hakları Saklıdır.
         </Footer>
       </Layout>
+      <Modal
+        title="AYARLAR"
+        centered
+        open={open}
+        onCancel={closeModal}
+        width={600}
+        footer={null}
+      >
+        <div className="space-y-6">
+          <div>
+            <h1 className="text-lg font-medium text-gray-800">Ad Soyad</h1>
+            <div className="border border-gray-300 bg-white rounded-md shadow-sm w-full h-10 flex items-center px-4 text-gray-700">
+              Tuna Bozlak
+            </div>
+          </div>
+
+          <div>
+            <h1 className="text-lg font-medium text-gray-800">E-Posta</h1>
+            <div className="border border-gray-300 bg-white rounded-md shadow-sm w-full h-10 flex items-center px-4 text-gray-700">
+              a@gmail.com
+            </div>
+          </div>
+
+          <div>
+            <h1 className="text-lg font-medium text-gray-800">Adres</h1>
+            <TextArea
+              placeholder="Adres giriniz..."
+              className="border border-gray-300 rounded-md shadow-sm"
+              rows={3}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <button
+              className="bg-blue-500 text-white px-4 py-2 rounded-md w-full shadow-sm hover:bg-blue-600 transition-colors duration-300 mt-4"
+              onClick={handleSave}
+            >
+              Kaydet
+            </button>
+          </div>
+
+          <div className="flex justify-between items-center">
+            <h1 className="text-lg font-medium text-gray-800">
+              Şifre Değiştir
+            </h1>
+            <button className="w-1/4 h-10 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md transition duration-300 shadow-sm">
+              Şifre Değiştir
+            </button>
+          </div>
+        </div>
+      </Modal>
     </Layout>
   );
 };

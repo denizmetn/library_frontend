@@ -85,7 +85,7 @@ const Favorites = () => {
         className={styles.customTable}
         columns={columns}
         dataSource={dataSource}
-        scroll={{ y: 55 * 7.81 }}
+        scroll={{ y: 55 * 8 }}
       />
       <Modal
         title="Kitap Ödünç Alındı"

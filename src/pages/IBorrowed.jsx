@@ -102,7 +102,7 @@ const IBorrowed = () => {
         className={styles.customTable}
         columns={updatedColumns}
         dataSource={data}
-        scroll={{ y: 55 * 7.81 }}
+        scroll={{ y: 55 * 8 }}
       />
     </div>
   );
