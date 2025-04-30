@@ -5,6 +5,7 @@ export const BorrowedBooksContext = createContext();
 export const BorrowedBooksProvider = ({ children }) => {
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [borrowHistory, setBorrowHistory] = useState([]);
+  const [favoriteBooks, setFavoriteBooks] = useState([]);
 
   const addBorrowedBook = (book) => {
     setBorrowedBooks((prev) => [...prev, book]);
@@ -18,6 +19,14 @@ export const BorrowedBooksProvider = ({ children }) => {
     setBorrowHistory((prevHistory) => [...prevHistory, book]);
   };
 
+  const addFavoriteBook = (book) => {
+    setFavoriteBooks((prev) => [...prev, book]);
+  };
+
+  const removeFavoriteBook = (key) => {
+    setFavoriteBooks((prev) => prev.filter((book) => book.key !== key));
+  };
+
   return (
     <BorrowedBooksContext.Provider
       value={{
@@ -26,6 +35,9 @@ export const BorrowedBooksProvider = ({ children }) => {
         removeBorrowedBook,
         borrowHistory,
         addToBorrowHistory,
+        favoriteBooks,
+        addFavoriteBook,
+        removeFavoriteBook,
       }}
     >
       {children}

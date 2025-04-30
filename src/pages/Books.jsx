@@ -90,7 +90,12 @@ const Books = () => {
     },
   ];
 
-  const { addBorrowedBook } = useContext(BorrowedBooksContext) || {};
+  const {
+    addBorrowedBook,
+    addFavoriteBook,
+    favoriteBooks,
+    removeFavoriteBook,
+  } = useContext(BorrowedBooksContext) || {};
   if (!addBorrowedBook) {
     console.error("BorrowedBooksContext is not properly provided.");
     return <div>Error: Context not available</div>;
@@ -346,6 +351,14 @@ const Books = () => {
   const [filteredData, setFilteredData] = useState(dataSource);
   const [searchText, setSearchText] = useState("");
   const [selectedTur, setSelectedTur] = useState("");
+  useState(() => {
+    const updatedData = dataSource.map((item) => ({
+      ...item,
+      isFavorite: favoriteBooks.some((fav) => fav.key === item.key),
+    }));
+    setDataSource(updatedData);
+    setFilteredData(updatedData);
+  }, [favoriteBooks]);
 
   const openModal = (key) => {
     const today = new Date();
@@ -360,6 +373,15 @@ const Books = () => {
   };
 
   const handleFavorite = (key) => {
+    const selectedBook = dataSource.find((item) => item.key === key);
+    if (!selectedBook) return;
+
+    if (selectedBook.isFavorite) {
+      removeFavoriteBook(key);
+    } else {
+      addFavoriteBook(selectedBook);
+    }
+
     const updatedData = dataSource.map((item) =>
       item.key === key ? { ...item, isFavorite: !item.isFavorite } : item
     );

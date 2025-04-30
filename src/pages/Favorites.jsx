@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal, Table } from "antd";
 import { createStyles } from "antd-style";
+import { BorrowedBooksContext } from "../context/BorrowedBooksContext";
 
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
@@ -21,26 +22,6 @@ const useStyle = createStyles(({ css, token }) => {
 });
 
 const Favorites = () => {
-  const { styles } = useStyle();
-  const [open, setOpen] = useState(false);
-  const [startDate, setStartDate] = useState("");
-
-  const handleBorrow = (key) => {
-    console.log(`Kitap ${key} ödünç alındı.`);
-    openModal();
-  };
-
-  const openModal = () => {
-    const today = new Date();
-    const formattedDate = today.toISOString().split("T")[0];
-    setStartDate(formattedDate);
-    setOpen(true);
-  };
-
-  const closeModal = () => {
-    setOpen(false);
-  };
-
   const columns = [
     {
       title: "Kitap Adı",
@@ -63,7 +44,7 @@ const Favorites = () => {
       width: 100,
       render: (_, record) => (
         <button
-          onClick={() => handleBorrow(record.key)}
+          onClick={() => openModal(record.key)}
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
         >
           Ödünç al
@@ -72,11 +53,50 @@ const Favorites = () => {
     },
   ];
 
+  const { styles } = useStyle();
+  const { favoriteBooks, addBorrowedBook } =
+    useContext(BorrowedBooksContext) || {};
+  const [open, setOpen] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [selectedBook, setSelectedBook] = useState(null);
+
+  const openModal = (bookKey) => {
+    const today = new Date();
+    const formattedDate = today.toISOString().split("T")[0];
+    setStartDate(formattedDate);
+    const book = favoriteBooks.find((book) => book.key === bookKey);
+    setSelectedBook(book);
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+  };
+  const handleBorrow = (e) => {
+    e.preventDefault();
+    const bitisTarihi = e.target.bitistarihi.value;
+    if (!addBorrowedBook) {
+      console.error(
+        "addBorrowedBook function is not available in the context."
+      );
+      return;
+    }
+    if (selectedBook && bitisTarihi) {
+      addBorrowedBook({
+        ...selectedBook,
+        baslangicTarihi: startDate,
+        bitisTarihi,
+      });
+      closeModal();
+    }
+  };
+
   return (
     <div className="flex flex-col gap-8">
       <Table
         className={styles.customTable}
         columns={columns}
+        dataSource={favoriteBooks}
         scroll={{ y: 55 * 8 }}
       />
       <Modal
@@ -87,7 +107,7 @@ const Favorites = () => {
         width={600}
         footer={null}
       >
-        <form className="space-y-8">
+        <form className="space-y-8" onSubmit={handleBorrow}>
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
