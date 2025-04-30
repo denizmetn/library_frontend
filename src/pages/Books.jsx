@@ -163,22 +163,7 @@ const Books = () => {
       isFavorite: false,
       durum: "Tükenmiş",
     },
-    {
-      key: 8,
-      kitapAdi: "Dune",
-      yazarAdi: "Frank Herbert",
-      tur: "Bilim Kurgu",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 9,
-      kitapAdi: "Yüzüklerin Efendisi",
-      yazarAdi: "J.R.R. Tolkien",
-      tur: "Fantastik",
-      isFavorite: false,
-      durum: "Tükenmiş",
-    },
+
     {
       key: 10,
       kitapAdi: "Harry Potter ve Felsefe Taşı",
@@ -254,6 +239,7 @@ const Books = () => {
             placeholder="Kitap veya Yazar Adı Ara"
             value={searchText}
             onChange={(e) => handleSearch(e.target.value)}
+            allowClear
             style={{ width: "300px" }}
           />
           <Select
