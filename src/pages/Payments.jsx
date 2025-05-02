@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Table, Modal, Form, Input } from "antd";
 import { createStyles } from "antd-style";
-import { BorrowedBooksContext } from "../context/BorrowedBooksContext"; // Import context
-import dayjs from "dayjs"; // Import dayjs
+import { BorrowedBooksContext } from "../context/BorrowedBooksContext";
+import dayjs from "dayjs";
 
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
@@ -54,6 +54,10 @@ const Payments = () => {
         setDataSource(filteredBooks);
       } catch (error) {
         console.error("Error fetching overdue books:", error);
+        Modal.error({
+          title: "Hata",
+          content: "Gecikmiş kitaplar alınırken bir hata oluştu.",
+        });
         setDataSource([]);
       }
     };
@@ -103,7 +107,7 @@ const Payments = () => {
       width: 100,
     },
     {
-      title: "Toplam Borç",
+      title: "Toplam Borç (TL)",
       dataIndex: "borc",
       width: 100,
     },
@@ -173,10 +177,15 @@ const Payments = () => {
               type="text"
               inputMode="numeric"
               maxLength={16}
+              onKeyDown={(e) => {
+                if (!/^\d$/.test(e.key)) {
+                  e.preventDefault();
+                }
+              }}
             />
           </Form.Item>
 
-          <Form.Item label="Son Kullanma Tarihi" required>
+          <Form.Item label="Son Kullanma Tarihi">
             <div className="flex items-center gap-2">
               <Form.Item
                 name="month"
@@ -195,6 +204,11 @@ const Payments = () => {
                   type="text"
                   inputMode="numeric"
                   style={{ width: "60px" }}
+                  onKeyDown={(e) => {
+                    if (!/^\d$/.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </Form.Item>
               <span>/</span>
@@ -215,6 +229,11 @@ const Payments = () => {
                   type="text"
                   inputMode="numeric"
                   style={{ width: "60px" }}
+                  onKeyDown={(e) => {
+                    if (!/^\d$/.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </Form.Item>
             </div>
@@ -236,6 +255,11 @@ const Payments = () => {
               type="text"
               inputMode="numeric"
               maxLength={3}
+              onKeyDown={(e) => {
+                if (!/^\d$/.test(e.key)) {
+                  e.preventDefault();
+                }
+              }}
             />
           </Form.Item>
 
@@ -246,7 +270,6 @@ const Payments = () => {
               { required: true, message: "İsim gerekli" },
               {
                 pattern: /^[A-Za-zÇçĞğİıÖöŞşÜü\s]+$/,
-                min: 3,
                 message: "Lütfen Geçerli bir isim giriniz.",
               },
             ]}
@@ -259,7 +282,7 @@ const Payments = () => {
       <Table
         className={styles.customTable}
         columns={columns}
-        dataSource={dataSource} // Use updated dataSource
+        dataSource={dataSource}
         scroll={{ y: 55 * 8 }}
       />
     </div>

@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Table, Input, Select, Modal } from "antd";
 import { createStyles } from "antd-style";
 import { StarOutlined } from "@ant-design/icons";
-import { BorrowedBooksContext } from "../context/BorrowedBooksContext"; // Import context
+import { BorrowedBooksContext } from "../context/BorrowedBooksContext";
 
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
@@ -362,7 +362,8 @@ const Books = () => {
   const [filteredData, setFilteredData] = useState(dataSource);
   const [searchText, setSearchText] = useState("");
   const [selectedTur, setSelectedTur] = useState("");
-  useState(() => {
+
+  useEffect(() => {
     const updatedData = dataSource.map((item) => ({
       ...item,
       isFavorite: favoriteBooks.some((fav) => fav.key === item.key),
@@ -403,39 +404,32 @@ const Books = () => {
     setFilteredData(updatedData);
   };
 
+  const filterData = (searchText, selectedTur) => {
+    return dataSource.filter((item) => {
+      const matchesSearch =
+        !searchText ||
+        item.kitapAdi.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.yazarAdi.toLowerCase().includes(searchText.toLowerCase());
+      const matchesTur = !selectedTur || item.tur === selectedTur;
+      return matchesSearch && matchesTur;
+    });
+  };
+
   const handleSearch = (value) => {
-    const filtered = dataSource.filter(
-      (item) =>
-        item.kitapAdi.toLowerCase().includes(value.toLowerCase()) ||
-        item.yazarAdi.toLowerCase().includes(value.toLowerCase())
-    );
-    setFilteredData(
-      selectedTur
-        ? filtered.filter((item) => item.tur === selectedTur)
-        : filtered
-    );
     setSearchText(value);
+    setFilteredData(filterData(value, selectedTur));
   };
 
   const handleTurChange = (value) => {
-    const filtered = dataSource.filter((item) =>
-      searchText
-        ? (item.kitapAdi.toLowerCase().includes(searchText.toLowerCase()) ||
-            item.yazarAdi.toLowerCase().includes(searchText.toLowerCase())) &&
-          (!value || item.tur === value)
-        : !value || item.tur === value
-    );
-    setFilteredData(filtered);
     setSelectedTur(value);
+    setFilteredData(filterData(searchText, value));
   };
 
   const handleBorrow = (e) => {
     e.preventDefault();
     const bitisTarihi = e.target.bitistarihi.value;
-    if (!addBorrowedBook) {
-      console.error(
-        "addBorrowedBook function is not available in the context."
-      );
+    if (new Date(bitisTarihi) < new Date(startDate)) {
+      alert("Bitiş tarihi, başlangıç tarihinden sonra olmalıdır.");
       return;
     }
     if (selectedBook && bitisTarihi) {
@@ -458,7 +452,7 @@ const Books = () => {
   };
 
   const { styles } = useStyle();
-  const { Option } = Select;
+
   return (
     <div className="flex flex-col">
       <div className="space-y-6">
@@ -503,10 +497,7 @@ const Books = () => {
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="baslangıctarihi"
-                  className="block text-sm font-semibold text-gray-700 mb-2"
-                >
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Başlangıç Tarihi
                 </label>
                 <input
@@ -519,10 +510,7 @@ const Books = () => {
               </div>
 
               <div>
-                <label
-                  htmlFor="bitistarihi"
-                  className="block text-sm font-semibold text-gray-700 mb-2"
-                >
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Bitiş Tarihi
                 </label>
                 <input

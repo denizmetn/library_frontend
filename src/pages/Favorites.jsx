@@ -101,10 +101,8 @@ const Favorites = () => {
   const handleBorrow = (e) => {
     e.preventDefault();
     const bitisTarihi = e.target.bitistarihi.value;
-    if (!addBorrowedBook) {
-      console.error(
-        "addBorrowedBook function is not available in the context."
-      );
+    if (new Date(bitisTarihi) < new Date(startDate)) {
+      alert("Bitiş tarihi, başlangıç tarihinden sonra olmalıdır.");
       return;
     }
     if (selectedBook && bitisTarihi) {

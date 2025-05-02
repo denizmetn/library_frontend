@@ -4,16 +4,11 @@ import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const nagivate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      alert("Lütfen tüm alanları doldurun.");
-      return;
-    }
-    nagivate("/main");
-    console.log("Giriş yapılıyor:", { email, password });
+    navigate("/main");
   };
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-purple-100">
@@ -26,12 +21,14 @@ const LoginPage = () => {
           <input
             type="email"
             placeholder="E-posta"
+            required
             onChange={(e) => setEmail(e.target.value)}
             className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <input
             type="password"
             placeholder="Şifre"
+            required
             onChange={(e) => setPassword(e.target.value)}
             className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
@@ -39,7 +36,6 @@ const LoginPage = () => {
           <button
             type="submit"
             className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl transition duration-200"
-            onClick={handleSubmit}
           >
             Giriş Yap
           </button>

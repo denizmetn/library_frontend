@@ -8,10 +8,16 @@ import "swiper/css/effect-fade";
 
 const HomePage = () => {
   const images = [
-    "src/images/books.jpg",
-    "src/images/library.jpg",
-    "src/images/library2.jpg",
-    "src/images/people.jpg",
+    "/images/l.jpg",
+    "/images/b1.jpg",
+    "/images/p1.jpg",
+    "/images/p2.jpg",
+    "/images/l1.jpg",
+    "/images/b2.jpg",
+    "/images/p3.jpg",
+    "/images/l2.jpg",
+    "/images/b3.jpeg",
+    "/images/p4.jpg",
   ];
 
   return (
@@ -49,11 +55,7 @@ const HomePage = () => {
         >
           {images.map((url, index) => (
             <SwiperSlide key={index} className="w-full h-full">
-              <img
-                src={url}
-                alt={`Slide ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
+              <img src={url} className="w-full h-full object-cover" />
             </SwiperSlide>
           ))}
         </Swiper>

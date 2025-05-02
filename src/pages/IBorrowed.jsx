@@ -10,11 +10,12 @@ const useStyle = createStyles(({ css, token }) => {
     customTable: css`
       ${antCls}-table {
         ${antCls}-table-container {
-          ${antCls}-table-body
-          ${antCls}-table-content {
-            scrollbar-width: thin;
-            scrollbar-color: #eaeaea transparent;
-            scrollbar-gutter: stable;
+          ${antCls}-table-body {
+            ${antCls}-table-content {
+              scrollbar-width: thin;
+              scrollbar-color: #eaeaea transparent;
+              scrollbar-gutter: stable;
+            }
           }
         }
       }
@@ -77,9 +78,10 @@ const IBorrowed = () => {
         render: (_, record) => (
           <button
             onClick={() => {
+              const updatedRecord = { ...record, durum: "Mevcut" };
               removeBorrowedBook(record.key);
               addToBorrowHistory({
-                ...record,
+                ...updatedRecord,
                 iadeEdilenTarih: dayjs().format("YYYY-MM-DD"),
               });
               record.durum = "Mevcut";

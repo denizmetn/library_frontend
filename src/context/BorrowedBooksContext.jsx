@@ -37,7 +37,7 @@ export const BorrowedBooksProvider = ({ children }) => {
         return {
           ...book,
           gecikenGun: overdueDays,
-          borc: overdueDays * 10, // 10 TL per day
+          borc: overdueDays * 10,
         };
       });
   };

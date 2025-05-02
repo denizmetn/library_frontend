@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Layout, Menu, theme, Dropdown, Avatar, Modal, Input } from "antd";
 import {
   UserOutlined,
@@ -57,8 +57,9 @@ const MainPage = () => {
   const [address, setAddress] = useState("");
   const [savedAddress, setSavedAddress] = useState("");
   const [open, setOpen] = useState(false);
+  const currentYear = new Date().getFullYear();
 
-  const renderContent = () => {
+  const renderContent = useMemo(() => {
     switch (selectedKey) {
       case "1":
         return { title: "Kitaplar", component: <Books /> };
@@ -73,8 +74,8 @@ const MainPage = () => {
       default:
         return { title: "Hesabım", component: <MyAccount /> };
     }
-  };
-  const { title, component } = renderContent();
+  }, [selectedKey]);
+  const { title, component } = renderContent;
 
   useEffect(() => {
     const storedAddress = localStorage.getItem("savedAddress");
@@ -89,10 +90,6 @@ const MainPage = () => {
     localStorage.setItem("savedAddress", address);
   };
 
-  const handleSettings = (key) => {
-    openModal();
-  };
-
   const openModal = () => {
     setOpen(true);
   };
@@ -101,21 +98,17 @@ const MainPage = () => {
     setOpen(false);
   };
 
-  const handleMenuClick = (key) => {
-    setSelectedKey(key);
+  const handleMenuClick = (menuKey) => {
+    setSelectedKey(menuKey);
   };
 
   const userMenu = (
     <Menu>
-      <Menu.Item
-        key="settings"
-        icon={<SettingOutlined />}
-        onClick={handleSettings}
-      >
+      <Menu.Item icon={<SettingOutlined />} onClick={openModal}>
         Ayarlar
       </Menu.Item>
-      <Menu.Item key="logout" icon={<LogoutOutlined />}>
-        <a href="/login">Çıkış</a>
+      <Menu.Item icon={<LogoutOutlined />}>
+        <a href="/">Çıkış</a>
       </Menu.Item>
     </Menu>
   );
@@ -174,6 +167,7 @@ const MainPage = () => {
             {component}
           </div>
         </Content>
+
         <Footer
           style={{
             textAlign: "center",
@@ -186,7 +180,7 @@ const MainPage = () => {
             alignItems: "center",
           }}
         >
-          © {new Date().getFullYear()} Kütüphane Sistemi | Tüm Hakları Saklıdır.
+          © {currentYear} Kütüphane Sistemi | Tüm Hakları Saklıdır.
         </Footer>
       </Layout>
       <Modal
@@ -226,15 +220,6 @@ const MainPage = () => {
               onClick={handleSave}
             >
               Kaydet
-            </button>
-          </div>
-
-          <div className="flex justify-between items-center">
-            <h1 className="text-lg font-medium text-gray-800">
-              Şifre Değiştir
-            </h1>
-            <button className="w-1/4 h-10 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md transition duration-300 shadow-sm">
-              Şifre Değiştir
             </button>
           </div>
         </div>
