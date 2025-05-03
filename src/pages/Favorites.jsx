@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Modal, Table } from "antd";
 import { createStyles } from "antd-style";
 import { BorrowedBooksContext } from "../context/BorrowedBooksContext";
@@ -69,11 +69,22 @@ const Favorites = () => {
   ];
 
   const { styles } = useStyle();
-  const { favoriteBooks, addBorrowedBook } =
+  const { favoriteBooks, addBorrowedBook, borrowedBooks } =
     useContext(BorrowedBooksContext) || {};
   const [open, setOpen] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [selectedBook, setSelectedBook] = useState(null);
+  const [filteredData, setFilteredData] = useState([]);
+
+  useEffect(() => {
+    const updatedData = favoriteBooks.map((item) => ({
+      ...item,
+      durum: borrowedBooks.some((borrowed) => borrowed.key === item.key)
+        ? "Mevcut Değil"
+        : "Mevcut",
+    }));
+    setFilteredData(updatedData);
+  }, [favoriteBooks, borrowedBooks]);
 
   const openModal = (bookKey) => {
     const today = new Date();
@@ -112,7 +123,7 @@ const Favorites = () => {
       <Table
         className={styles.customTable}
         columns={columns}
-        dataSource={favoriteBooks}
+        dataSource={filteredData}
         scroll={{ y: 55 * 8 }}
       />
       <Modal

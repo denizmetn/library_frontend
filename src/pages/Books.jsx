@@ -445,6 +445,14 @@ const Books = () => {
         bitisTarihi,
         durum: "Mevcut Değil",
       });
+      const updatedData = dataSource.map((item) =>
+        item.key === selectedBook.key
+          ? { ...item, durum: "Mevcut Değil" }
+          : item
+      );
+      setDataSource(updatedData);
+      setFilteredData(updatedData);
+
       closeModal();
     }
   };
