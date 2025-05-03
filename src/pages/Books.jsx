@@ -3,7 +3,7 @@ import { Table, Input, Select, Modal } from "antd";
 import { createStyles } from "antd-style";
 import { StarOutlined } from "@ant-design/icons";
 import { BorrowedBooksContext } from "../context/BorrowedBooksContext";
-
+import axios from "axios";
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
   return {
@@ -112,250 +112,29 @@ const Books = () => {
     return <div>Error: Context not available</div>;
   }
   const [selectedBook, setSelectedBook] = useState(null);
-  const [dataSource, setDataSource] = useState([
-    {
-      key: 1,
-      kitapAdi: "Sefiller",
-      yazarAdi: "Victor Hugo",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 2,
-      kitapAdi: "1984",
-      yazarAdi: "George Orwell",
-      tur: "Bilim Kurgu",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 3,
-      kitapAdi: "Suç ve Ceza",
-      yazarAdi: "Fyodor Dostoyevski",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 4,
-      kitapAdi: "Hayvan Çiftliği",
-      yazarAdi: "George Orwell",
-      tur: "Bilim Kurgu",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 5,
-      kitapAdi: "Kürk Mantolu Madonna",
-      yazarAdi: "Sabahattin Ali",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 6,
-      kitapAdi: "Beyaz Zambaklar Ülkesinde",
-      yazarAdi: "Grigory Petrov",
-      tur: "Tarih",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 7,
-      kitapAdi: "Nutuk",
-      yazarAdi: "Mustafa Kemal Atatürk",
-      tur: "Tarih",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-
-    {
-      key: 8,
-      kitapAdi: "Dune",
-      yazarAdi: "Frank Herbert",
-      tur: "Bilim Kurgu",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 9,
-      kitapAdi: "Yüzüklerin Efendisi",
-      yazarAdi: "J.R.R. Tolkien",
-      tur: "Fantastik",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-
-    {
-      key: 10,
-      kitapAdi: "Harry Potter ve Felsefe Taşı",
-      yazarAdi: "J.K. Rowling",
-      tur: "Fantastik",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 11,
-      kitapAdi: "Don Kişot",
-      yazarAdi: "Miguel de Cervantes",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 12,
-      kitapAdi: "Savaş ve Barış",
-      yazarAdi: "Lev Tolstoy",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 13,
-      kitapAdi: "Zaman Makinesi",
-      yazarAdi: "H.G. Wells",
-      tur: "Bilim Kurgu",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 14,
-      kitapAdi: "Frankenstein",
-      yazarAdi: "Mary Shelley",
-      tur: "Bilim Kurgu",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 15,
-      kitapAdi: "Yabancı",
-      yazarAdi: "Albert Camus",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 16,
-      kitapAdi: "Monte Cristo Kontu",
-      yazarAdi: "Alexandre Dumas",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 17,
-      kitapAdi: "Dracula",
-      yazarAdi: "Bram Stoker",
-      tur: "Fantastik",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 18,
-      kitapAdi: "Kayıp Zamanın İzinde",
-      yazarAdi: "Marcel Proust",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Tükenmiş",
-    },
-    {
-      key: 19,
-      kitapAdi: "Cesur Yeni Dünya",
-      yazarAdi: "Aldous Huxley",
-      tur: "Bilim Kurgu",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 20,
-      kitapAdi: "Bir İdam Mahkumunun Son Günü",
-      yazarAdi: "Victor Hugo",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 21,
-      kitapAdi: "Moby Dick",
-      yazarAdi: "Herman Melville",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 22,
-      kitapAdi: "Uğultulu Tepeler",
-      yazarAdi: "Emily Brontë",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 23,
-      kitapAdi: "Alice Harikalar Diyarında",
-      yazarAdi: "Lewis Carroll",
-      tur: "Fantastik",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 24,
-      kitapAdi: "Denizler Altında Yirmi Bin Fersah",
-      yazarAdi: "Jules Verne",
-      tur: "Bilim Kurgu",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 25,
-      kitapAdi: "Germinal",
-      yazarAdi: "Émile Zola",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 26,
-      kitapAdi: "Bülbülü Öldürmek",
-      yazarAdi: "Harper Lee",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 27,
-      kitapAdi: "Yeraltından Notlar",
-      yazarAdi: "Fyodor Dostoyevski",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 28,
-      kitapAdi: "Körlük",
-      yazarAdi: "José Saramago",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 29,
-      kitapAdi: "Dorian Gray'in Portresi",
-      yazarAdi: "Oscar Wilde",
-      tur: "Roman",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-    {
-      key: 30,
-      kitapAdi: "Hayalet Hikayeleri",
-      yazarAdi: "M.R. James",
-      tur: "Fantastik",
-      isFavorite: false,
-      durum: "Mevcut",
-    },
-  ]);
+  const [dataSource, setDataSource] = useState([]);
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await axios.get("http://localhost:8081/book");
+        const books = response.data.map((book, index) => ({
+          key: book.id || index,
+          kitapAdi: book.title,
+          yazarAdi: book.author,
+          tur: book.category,
+          isFavorite: false,
+          durum: "Mevcut"
+        }));
+        setDataSource(books);
+        setFilteredData(books);
+      } catch (error) {
+        console.error("Kitaplar alınırken hata oluştu:", error);
+      }
+    };
+  
+    fetchBooks();
+  }, []);
+  
 
   const [open, setOpen] = useState(false);
   const [startDate, setStartDate] = useState("");
@@ -371,8 +150,6 @@ const Books = () => {
         ? "Mevcut Değil"
         : "Mevcut",
     }));
-    setDataSource(updatedData);
-    setFilteredData(updatedData);
   }, [favoriteBooks, borrowedBooks]);
 
   const openModal = (key) => {

@@ -21,10 +21,10 @@ const LoginForm =()=>{
       };
 
       try{
-        const response = await axios.post("http://localhost:8081/user/register",userToSend);
-        const msgs=response?.data?.message || "Giriş Başarıyla Gerçekleştirildi.";
-        alert(msgs);
-        //navigate("/main");
+        //const response = await axios.post("http://localhost:8081/auth/login",userToSend);
+        //const msgs=response?.data?.message || "Giriş Başarıyla Gerçekleştirildi.";
+        //alert(msgs);
+        navigate("/main");
         }
     catch(error){
         const errormsgs = error.response?.data?.message || "Mail veya Şifre geçersiz.";
