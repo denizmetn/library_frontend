@@ -34,7 +34,7 @@ const RegisterForm = ()=>{
           };
           
         try{
-            const response = await axios.post("http://localhost:8081/user/auth/login",userToSend);
+            const response = await axios.post("http://localhost:8081/auth/login",userToSend);
             const msgs=response?.data?.message || "Kaydınız başarılı.";
             alert(msgs);
             //navigate("/main");
