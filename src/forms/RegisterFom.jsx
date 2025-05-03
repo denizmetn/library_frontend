@@ -26,7 +26,7 @@ const RegisterForm = ()=>{
     const handleSubmit = async(e) =>{
         const fullName = `${User.name} ${User.surname}`.trim(); 
         const userToSend = {
-            name: fullName,             
+            username: fullName,             
             email: User.email,
             password: User.password
           };
