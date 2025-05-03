@@ -16,8 +16,8 @@ const LoginForm =()=>{
       e.preventDefault();
 
       const userToSend = {             
-        email: User.email,
-        password: User.password
+        email: userLogin.email,
+        password: userLogin.password
       };
 
       try{
