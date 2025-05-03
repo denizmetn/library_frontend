@@ -18,6 +18,8 @@ const RegisterForm = ()=>{
     }
     const passwordChangeHandler = (e) => {
         setUser({...User,password:e.target.value});
+        const fullName = `${User.name} ${User.surname}`.trim(); 
+        console.log(fullName);
         
     }
 
@@ -32,11 +34,14 @@ const RegisterForm = ()=>{
 
         try{
             const response = await axios.post("http://localhost:8081/user/register",userToSend);
-            setMessage("Kayıt Başarılı");
+            alert(response.data.message);
+            //navigate("/main");
         }
         catch(error){
+            const errormsgs = error.response?.data?.message || "Bir hata oluştu.";
+            alert(errormsgs);
             console.error("kayıt hatası",error);
-            setMessage("hata oluştu");
+            
         }
         
     }
