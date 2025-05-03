@@ -12,7 +12,7 @@ const LoginForm =()=>{
         setUserLogin({...userLogin,password:e.target.value});
     };
   
-    const handleSubmit = async (e) => {
+    const loginHandleSubmit = async (e) => {
       e.preventDefault();
 
       const userToSend = {             
@@ -40,7 +40,7 @@ const LoginForm =()=>{
             Giriş Yap
           </h1>
   
-          <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+          <form className="flex flex-col space-y-4" onSubmit={loginHandleSubmit}>
             <input
               type="email"
               placeholder="E-posta"
