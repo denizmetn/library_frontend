@@ -54,10 +54,32 @@ const MainPage = () => {
   } = theme.useToken();
 
   const [selectedKey, setSelectedKey] = useState("1");
+  const [nameField, setNameField] = useState("");
   const [address, setAddress] = useState("");
   const [savedAddress, setSavedAddress] = useState("");
   const [open, setOpen] = useState(false);
   const currentYear = new Date().getFullYear();
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        const userToGet = {
+          username: "kullaniciadi",
+          email: "email",
+        };
+
+        const response = await axios.get("http://localhost:8081/user/login", {
+          params: userToGet,  
+        });
+
+        console.log("Gelen yanıt:", response.data);
+      } catch (error) {
+        console.error("Veri alınırken hata oluştu:", error);
+      }
+    };
+
+    fetchData(); 
+  }, []);
 
   const renderContent = useMemo(() => {
     switch (selectedKey) {
@@ -195,7 +217,7 @@ const MainPage = () => {
           <div>
             <h1 className="text-lg font-medium text-gray-800">Ad Soyad</h1>
             <div className="border border-gray-300 bg-white rounded-md shadow-sm w-full h-10 flex items-center px-4 text-gray-700">
-              Tuna Bozlak
+              {userToGet.username}
             </div>
           </div>
 
