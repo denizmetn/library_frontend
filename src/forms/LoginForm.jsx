@@ -21,9 +21,9 @@ const LoginForm =()=>{
       };
 
       try{
-        //const response = await axios.post("http://localhost:8081/auth/login",userToSend);
-        //const msgs=response?.data?.message || "Giriş Başarıyla Gerçekleştirildi.";
-        //alert(msgs);
+        const response = await axios.post("http://localhost:8081/user/login",userToSend);
+        const msgs=response?.data?.message || "Giriş Başarıyla Gerçekleştirildi.";
+        alert(msgs);
         navigate("/main");
         }
     catch(error){
