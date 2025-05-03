@@ -4,6 +4,7 @@ import { createStyles } from "antd-style";
 import { StarOutlined } from "@ant-design/icons";
 import { BorrowedBooksContext } from "../context/BorrowedBooksContext";
 import axios from "axios";
+
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
   return {
@@ -123,7 +124,7 @@ const Books = () => {
           yazarAdi: book.author,
           tur: book.category,
           isFavorite: false,
-          durum: "Mevcut"
+          durum: "Mevcut",
         }));
         setDataSource(books);
         setFilteredData(books);
@@ -131,10 +132,9 @@ const Books = () => {
         console.error("Kitaplar alınırken hata oluştu:", error);
       }
     };
-  
+
     fetchBooks();
   }, []);
-  
 
   const [open, setOpen] = useState(false);
   const [startDate, setStartDate] = useState("");
@@ -150,7 +150,9 @@ const Books = () => {
         ? "Mevcut Değil"
         : "Mevcut",
     }));
-  }, [favoriteBooks, borrowedBooks]);
+    setDataSource(updatedData);
+    setFilteredData(updatedData);
+  }, [favoriteBooks, borrowedBooks, dataSource]);
 
   const openModal = (key) => {
     const today = new Date();
