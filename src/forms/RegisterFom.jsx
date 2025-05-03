@@ -24,7 +24,8 @@ const RegisterForm = ()=>{
     }
 
     const handleSubmit = async(e) =>{
-        e.preventdefault();
+        e.preventDefault();
+
         const fullName = `${User.name} ${User.surname}`.trim(); 
         const userToSend = {
             username: fullName,             
@@ -32,7 +33,6 @@ const RegisterForm = ()=>{
             password: User.password
           };
           
-
         try{
             const response = await axios.post("http://localhost:8081/user/register",userToSend);
             const msgs=response?.data?.message || "Kaydınız başarılı.";
