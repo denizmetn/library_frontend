@@ -217,7 +217,7 @@ const MainPage = () => {
           <div>
             <h1 className="text-lg font-medium text-gray-800">Ad Soyad</h1>
             <div className="border border-gray-300 bg-white rounded-md shadow-sm w-full h-10 flex items-center px-4 text-gray-700">
-              {userToGet.username}
+              {response.username}
             </div>
           </div>
 
