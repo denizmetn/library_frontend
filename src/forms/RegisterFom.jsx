@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const RegisterForm = ()=>{
-    const [User,setUser] = useState({name:"", surname:"",email:"",password:""});
+    const [User,setUser] = useState({name:"", surname:"", email:"",password:""});
     const [message,setMessage] = useState("");
     const navigate = useNavigate();
 
@@ -22,8 +22,16 @@ const RegisterForm = ()=>{
     }
 
     const handleSubmit = async(e) =>{
+        const fullName = `${User.name} ${User.surname}`.trim(); 
+        const userToSend = {
+            name: fullName,             
+            email: User.email,
+            password: User.password
+          };
+          
+
         try{
-            const response = await axios.post("http://localhost:8081/user/register",User);
+            const response = await axios.post("http://localhost:8081/user/register",userToSend);
             setMessage("Kayıt Başarılı");
         }
         catch(error){
