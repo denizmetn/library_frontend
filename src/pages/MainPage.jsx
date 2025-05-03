@@ -54,13 +54,13 @@ const MainPage = () => {
   } = theme.useToken();
 
   const [selectedKey, setSelectedKey] = useState("1");
-  const [nameField, setNameField] = useState("");
+  const [userInfo, setUserInfo] = useState({ username: "", email: "" });
   const [address, setAddress] = useState("");
   const [savedAddress, setSavedAddress] = useState("");
   const [open, setOpen] = useState(false);
   const currentYear = new Date().getFullYear();
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const userToGet = {
@@ -69,16 +69,20 @@ const MainPage = () => {
         };
 
         const response = await axios.get("http://localhost:8081/user/login", {
-          params: userToGet,  
+          params: userToGet,
         });
 
         console.log("Gelen yanıt:", response.data);
+        setUserInfo({
+          username: response.data.username,
+          email: response.data.email,
+        });
       } catch (error) {
         console.error("Veri alınırken hata oluştu:", error);
       }
     };
 
-    fetchData(); 
+    fetchData();
   }, []);
 
   const renderContent = useMemo(() => {
@@ -217,14 +221,14 @@ const MainPage = () => {
           <div>
             <h1 className="text-lg font-medium text-gray-800">Ad Soyad</h1>
             <div className="border border-gray-300 bg-white rounded-md shadow-sm w-full h-10 flex items-center px-4 text-gray-700">
-              {response.username}
+              {userInfo.username}
             </div>
           </div>
 
           <div>
             <h1 className="text-lg font-medium text-gray-800">E-Posta</h1>
             <div className="border border-gray-300 bg-white rounded-md shadow-sm w-full h-10 flex items-center px-4 text-gray-700">
-              a@gmail.com
+              {userInfo.email}
             </div>
           </div>
 
