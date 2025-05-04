@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Table } from "antd";
 import { createStyles } from "antd-style";
 import dayjs from "dayjs";
@@ -93,7 +93,19 @@ const IBorrowed = () => {
 
   const handleReturn = async (borrowId) => {
     try {
+      const returnedBook = borrowedBooks.find((book) => book.key === borrowId);
+
+      const payload = {
+        borrowId,
+        title: returnedBook.kitapAdi,
+        author: returnedBook.yazarAdi,
+        category: returnedBook.tur,
+        receivedDate: returnedBook.baslangicTarihi,
+        returnedDate: returnedBook.bitisTarihi,
+      };
+      await axios.post("http://localhost:8081/borrowHistory/create", payload);
       await axios.put("http://localhost:8081/borrows/return", { borrowId });
+
       setBorrowedBooks((prev) => prev.filter((book) => book.key !== borrowId));
       alert("Kitap başarıyla iade edildi.");
     } catch (error) {
