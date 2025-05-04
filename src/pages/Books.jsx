@@ -204,7 +204,7 @@ const Books = () => {
     setFilteredData(filterData(searchText, value));
   };
 
-  const handleBorrow = (e) => {
+  const handleBorrow = async (e) => {
     e.preventDefault();
     const bitisTarihi = e.target.bitistarihi.value;
     if (new Date(bitisTarihi) < new Date(startDate)) {
@@ -212,21 +212,34 @@ const Books = () => {
       return;
     }
     if (selectedBook && bitisTarihi) {
-      addBorrowedBook({
-        ...selectedBook,
-        baslangicTarihi: startDate,
-        bitisTarihi,
-        durum: "Mevcut Değil",
-      });
-      const updatedData = dataSource.map((item) =>
-        item.key === selectedBook.key
-          ? { ...item, durum: "Mevcut Değil" }
-          : item
-      );
-      setDataSource(updatedData);
-      setFilteredData(updatedData);
+      const borrowRequest = {
+        bookId: selectedBook.key,
+        title: selectedBook.kitapAdi,
+        author: selectedBook.yazarAdi,
+        category: selectedBook.tur,
+        startDate: startDate,
+        endDate: bitisTarihi,
+      };
 
-      closeModal();
+      try {
+        // Backend'e ödünç alma isteği gönder
+        await axios.post("http://localhost:8081/borrows/create", borrowRequest);
+
+        // Frontend'de stok durumunu güncelle
+        const updatedData = dataSource.map((item) =>
+          item.key === selectedBook.key
+            ? { ...item, durum: "Mevcut Değil" }
+            : item
+        );
+        setDataSource(updatedData);
+        setFilteredData(updatedData);
+
+        closeModal();
+        alert("Kitap başarıyla ödünç alındı.");
+      } catch (error) {
+        console.error("Kitap ödünç alınırken hata oluştu:", error);
+        alert("Kitap ödünç alınırken bir hata oluştu. Lütfen tekrar deneyin.");
+      }
     }
   };
 
