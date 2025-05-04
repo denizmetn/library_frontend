@@ -101,7 +101,7 @@ const IBorrowed = () => {
         author: returnedBook.yazarAdi,
         category: returnedBook.tur,
         receivedDate: returnedBook.baslangicTarihi,
-        returnedDate: returnedBook.bitisTarihi,
+        returnedDate: dayjs().format("YYYY-MM-DD"),
       };
       await axios.post("http://localhost:8081/borrowHistory/create", payload);
       await axios.put("http://localhost:8081/borrows/return", { borrowId });

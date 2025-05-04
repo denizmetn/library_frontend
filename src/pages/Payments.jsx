@@ -3,6 +3,7 @@ import { Table, Modal, Form, Input } from "antd";
 import { createStyles } from "antd-style";
 import { BorrowedBooksContext } from "../context/BorrowedBooksContext";
 import dayjs from "dayjs";
+import axios from "axios";
 
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
@@ -29,41 +30,6 @@ const Payments = () => {
   const [form] = Form.useForm();
   const { calculateOverdueFines } = useContext(BorrowedBooksContext);
   const [dataSource, setDataSource] = useState([]);
-
-  useEffect(() => {
-    const fetchOverdueBooks = async () => {
-      try {
-        const overdueBooks = await calculateOverdueFines();
-        const today = dayjs();
-        const booksWithFines = overdueBooks.map((book) => {
-          const dueDate = dayjs(book.bitisTarihi);
-          const overdueDays = today.isAfter(dueDate)
-            ? today.diff(dueDate, "day")
-            : 0;
-          return {
-            ...book,
-            gecikenGun: overdueDays,
-            borc: overdueDays * 10, // 10 TL per overdue day
-          };
-        });
-        const storedData =
-          JSON.parse(localStorage.getItem("paidRecords")) || [];
-        const filteredBooks = booksWithFines.filter(
-          (book) => !storedData.includes(book.key)
-        );
-        setDataSource(filteredBooks);
-      } catch (error) {
-        console.error("Error fetching overdue books:", error);
-        Modal.error({
-          title: "Hata",
-          content: "Gecikmiş kitaplar alınırken bir hata oluştu.",
-        });
-        setDataSource([]);
-      }
-    };
-
-    fetchOverdueBooks();
-  }, [calculateOverdueFines]);
 
   const showOdemeModal = (record) => {
     setSelectedRecord(record);
