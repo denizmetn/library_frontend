@@ -130,6 +130,7 @@ const Books = () => {
         setFilteredData(books);
       } catch (error) {
         console.error("Kitaplar alınırken hata oluştu:", error);
+        alert("Kitaplar yüklenirken bir hata oluştu. Lütfen tekrar deneyin.");
       }
     };
 
@@ -150,9 +151,8 @@ const Books = () => {
         ? "Mevcut Değil"
         : "Mevcut",
     }));
-    setDataSource(updatedData);
     setFilteredData(updatedData);
-  }, [favoriteBooks, borrowedBooks, dataSource]);
+  }, [favoriteBooks, borrowedBooks]);
 
   const openModal = (key) => {
     const today = new Date();

@@ -15,6 +15,7 @@ import IBorrowed from "./IBorrowed";
 import BorrowHistory from "./BorrowHistory";
 import Payments from "./Payments";
 import Favorites from "./Favorites";
+import axios from "axios";
 const { TextArea } = Input;
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -63,14 +64,15 @@ const MainPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userToGet = {
+        const userToSend = {
           username: "kullaniciadi",
           email: "email",
         };
 
-        const response = await axios.get("http://localhost:8081/user/login", {
-          params: userToGet,
-        });
+        const response = await axios.post(
+          "http://localhost:8081/user/login",
+          userToSend
+        );
 
         console.log("Gelen yanıt:", response.data);
         setUserInfo({
@@ -166,7 +168,6 @@ const MainPage = () => {
         <Header
           style={{
             padding: " 20px",
-            background: colorBgContainer,
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
