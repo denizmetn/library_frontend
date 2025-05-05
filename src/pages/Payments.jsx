@@ -105,6 +105,29 @@ const Payments = () => {
     }
   };
 
+  const handleReload = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8081/borrow/info`);
+      const today = dayjs();
+      const borrowinfo = response.data
+        .map((borrow) => ({
+          kitapAdi: borrow.bookTitle,
+          yazarAdi: borrow.bookAuthor,
+          bitisTarihi: borrow.endDate,
+          gecikenGun: today.diff(dayjs(borrow.endDate), "day") * 10,
+        }))
+        .filter((borrow) => dayjs(borrow.bitisTarihi).isBefore(today));
+
+      setDataSource(borrowinfo);
+      //post yaparkenki parametreler yanlış düzeltilmesi gerekiyor.
+
+      await axios.post(`http://localhost:8081/borrow/filtered`, borrowinfo); //buranın API yanlış
+      console.log("Filtrelenmiş veri başarıyla gönderildi.");
+    } catch (error) {
+      console.error("Veri yüklenirken veya gönderilirken hata oluştu:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-8">
       <Modal
