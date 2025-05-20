@@ -86,6 +86,16 @@ const Books = () => {
     {
       title: "Stok Durumu",
       dataIndex: "durum",
+      render: (durum) => (
+        <span
+          style={{
+            color: durum === "Mevcut Değil" ? "red" : "green",
+            fontWeight: "bold",
+          }}
+        >
+          {durum || "Mevcut"}
+        </span>
+      ),
       width: 150,
     },
   ];
@@ -95,6 +105,7 @@ const Books = () => {
     addFavoriteBook,
     favoriteBooks,
     removeFavoriteBook,
+    borrowedBooks,
   } = useContext(BorrowedBooksContext) || {};
   if (!addBorrowedBook) {
     console.error("BorrowedBooksContext is not properly provided.");
@@ -116,7 +127,7 @@ const Books = () => {
       yazarAdi: "George Orwell",
       tur: "Bilim Kurgu",
       isFavorite: false,
-      durum: "Tükenmiş",
+      durum: "Mevcut",
     },
     {
       key: 3,
@@ -140,7 +151,7 @@ const Books = () => {
       yazarAdi: "Sabahattin Ali",
       tur: "Roman",
       isFavorite: false,
-      durum: "Tükenmiş",
+      durum: "Mevcut",
     },
     {
       key: 6,
@@ -173,7 +184,7 @@ const Books = () => {
       yazarAdi: "J.R.R. Tolkien",
       tur: "Fantastik",
       isFavorite: false,
-      durum: "Tükenmiş",
+      durum: "Mevcut",
     },
 
     {
@@ -198,7 +209,7 @@ const Books = () => {
       yazarAdi: "Lev Tolstoy",
       tur: "Roman",
       isFavorite: false,
-      durum: "Tükenmiş",
+      durum: "Mevcut",
     },
     {
       key: 13,
@@ -230,7 +241,7 @@ const Books = () => {
       yazarAdi: "Alexandre Dumas",
       tur: "Roman",
       isFavorite: false,
-      durum: "Tükenmiş",
+      durum: "Mevcut",
     },
     {
       key: 17,
@@ -278,7 +289,7 @@ const Books = () => {
       yazarAdi: "Emily Brontë",
       tur: "Roman",
       isFavorite: false,
-      durum: "Tükenmiş",
+      durum: "Mevcut",
     },
     {
       key: 23,
@@ -318,7 +329,7 @@ const Books = () => {
       yazarAdi: "Fyodor Dostoyevski",
       tur: "Roman",
       isFavorite: false,
-      durum: "Tükenmiş",
+      durum: "Mevcut",
     },
     {
       key: 28,
@@ -355,10 +366,13 @@ const Books = () => {
     const updatedData = dataSource.map((item) => ({
       ...item,
       isFavorite: favoriteBooks.some((fav) => fav.key === item.key),
+      durum: borrowedBooks.some((borrowed) => borrowed.key === item.key)
+        ? "Mevcut Değil"
+        : "Mevcut",
     }));
     setDataSource(updatedData);
     setFilteredData(updatedData);
-  }, [favoriteBooks]);
+  }, [favoriteBooks, borrowedBooks]);
 
   const openModal = (key) => {
     const today = new Date();
@@ -429,6 +443,7 @@ const Books = () => {
         ...selectedBook,
         baslangicTarihi: startDate,
         bitisTarihi,
+        durum: "Mevcut Değil",
       });
       closeModal();
     }

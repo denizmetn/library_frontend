@@ -39,6 +39,21 @@ const Favorites = () => {
       width: 100,
     },
     {
+      title: "Stok Durumu",
+      dataIndex: "durum",
+      render: (durum) => (
+        <span
+          style={{
+            color: durum === "Mevcut Değil" ? "red" : "green",
+            fontWeight: "bold",
+          }}
+        >
+          {durum || "Mevcut"}
+        </span>
+      ),
+      width: 150,
+    },
+    {
       title: "İşlemler",
       key: "islemler",
       width: 100,
@@ -86,6 +101,7 @@ const Favorites = () => {
         ...selectedBook,
         baslangicTarihi: startDate,
         bitisTarihi,
+        durum: "Mevcut Değil",
       });
       closeModal();
     }
