@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Table, Modal, Form, Input } from "antd";
 import { createStyles } from "antd-style";
+import { BorrowedBooksContext } from "../context/BorrowedBooksContext"; // Import context
 
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
@@ -25,6 +26,13 @@ const Payments = () => {
   const [odemeModalVisible, setOdemeModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [form] = Form.useForm();
+  const { calculateOverdueFines } = useContext(BorrowedBooksContext); // Use context
+  const [dataSource, setDataSource] = useState([]);
+
+  useEffect(() => {
+    const overdueBooks = calculateOverdueFines(); // Fetch overdue books
+    setDataSource(overdueBooks);
+  }, [calculateOverdueFines]);
 
   const showOdemeModal = (record) => {
     setSelectedRecord(record);
@@ -219,6 +227,7 @@ const Payments = () => {
       <Table
         className={styles.customTable}
         columns={columns}
+        dataSource={dataSource} // Use updated dataSource
         scroll={{ y: 55 * 8 }}
       />
     </div>
