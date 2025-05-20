@@ -31,7 +31,11 @@ const Payments = () => {
 
   useEffect(() => {
     const overdueBooks = calculateOverdueFines(); // Fetch overdue books
-    setDataSource(overdueBooks);
+    const storedData = JSON.parse(localStorage.getItem("paidRecords")) || [];
+    const filteredBooks = overdueBooks.filter(
+      (book) => !storedData.includes(book.key)
+    );
+    setDataSource(filteredBooks);
   }, [calculateOverdueFines]);
 
   const showOdemeModal = (record) => {
@@ -99,6 +103,11 @@ const Payments = () => {
     if (selectedRecord) {
       setDataSource((prevData) =>
         prevData.filter((item) => item.key !== selectedRecord.key)
+      );
+      const storedData = JSON.parse(localStorage.getItem("paidRecords")) || [];
+      localStorage.setItem(
+        "paidRecords",
+        JSON.stringify([...storedData, selectedRecord.key])
       );
     }
   };
