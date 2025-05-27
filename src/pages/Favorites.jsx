@@ -88,7 +88,7 @@ const Favorites = () => {
 
   const openModal = (bookKey) => {
     const today = new Date();
-    const formattedDate = today.toISOString().split("T")[0];
+    const formattedDate = today.toLocaleDateString("en-CA");
     setStartDate(formattedDate);
     const book = favoriteBooks.find((book) => book.key === bookKey);
     setSelectedBook(book);

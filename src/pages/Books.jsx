@@ -376,7 +376,7 @@ const Books = () => {
 
   const openModal = (key) => {
     const today = new Date();
-    const formattedDate = today.toISOString().split("T")[0];
+    const formattedDate = today.toLocaleDateString("en-CA");
     setStartDate(formattedDate);
     setSelectedBook(dataSource.find((item) => item.key === key));
     setOpen(true);
